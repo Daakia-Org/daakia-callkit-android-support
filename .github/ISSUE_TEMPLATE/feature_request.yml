@@ -1,0 +1,29 @@
+name: Feature request
+description: Something the SDK should do that it doesn't
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: What are you trying to do?
+      description: The integration problem, not a proposed API. Helps us find the right shape.
+    validations:
+      required: true
+
+  - type: textarea
+    id: workaround
+    attributes:
+      label: Current workaround
+      description: How you're handling it today, if at all.
+
+  - type: dropdown
+    id: module
+    attributes:
+      label: Which module would this affect?
+      options:
+        - callkit-core
+        - callkit-ui-compose
+        - callkit-ui-views
+        - Not sure
+    validations:
+      required: true

@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Daakia CallKit — Android SDK</title>
+    <style>
+      :root { color-scheme: light dark; }
+      body {
+        font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+        line-height: 1.6;
+        max-width: 42rem;
+        margin: 0 auto;
+        padding: 3rem 1.25rem;
+      }
+      h1 { margin-bottom: 0.25rem; }
+      p.lede { margin-top: 0; opacity: 0.75; }
+      ul { padding-left: 1.2rem; }
+      li { margin: 0.5rem 0; }
+      code { font-size: 0.9em; }
+    </style>
+  </head>
+  <body>
+    <h1>Daakia CallKit — Android SDK</h1>
+    <p class="lede">
+      Native Android SDK for Daakia-backed incoming call signaling.
+    </p>
+
+    <h2>Guides</h2>
+    <ul>
+      <li>
+        <a href="./getting-started.md">Getting started</a> — from an empty app to a ringing
+        call in about 20 minutes: install, Firebase, manifest, receiving and placing calls.
+      </li>
+      <li>
+        <a href="./call-events.md">Handling call events</a> — the complete guide to
+        <code>ACCEPTED</code> vs the event flow, the replay buffer, deduplication, and
+        lock-screen handling. Read this if the event model felt confusing.
+      </li>
+      <li>
+        <a href="./call-screen-ui.md">The incoming-call screen</a> — the preset UI modules,
+        the three styles, theming, and building your own call Activity.
+      </li>
+      <li>
+        <a href="./choosing-apis.md">Choosing the right API</a> — which API to use when, for
+        the pairs that look redundant.
+      </li>
+      <li>
+        <a href="./troubleshooting.md">Troubleshooting</a> — diagnosing calls that don't
+        ring, layer by layer, including OEM battery managers.
+      </li>
+      <li>
+        <a href="./permissions.md">Permissions</a> — every permission the SDK declares and why.
+      </li>
+    </ul>
+
+    <h2>Onboarding</h2>
+    <ul>
+      <li>
+        <a href="./client-handoff.md">Client onboarding checklist</a> — what a client provides
+        before integration starts, and what they get back. Skip if onboarding is done.
+      </li>
+    </ul>
+
+    <h2>Reference</h2>
+    <ul>
+      <li><a href="./api/">API reference</a> — generated from KDoc for all three modules.</li>
+      <li>
+        <a href="https://github.com/Daakia-Org/daakia-callkit-android-support">Source on GitHub</a>
+      </li>
+    </ul>
+  </body>
+</html>

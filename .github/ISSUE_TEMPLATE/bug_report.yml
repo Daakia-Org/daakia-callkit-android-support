@@ -1,0 +1,67 @@
+name: Bug report
+description: A call that doesn't ring, a crash, or wrong SDK behaviour
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Before filing: [docs/troubleshooting.md](../../blob/main/docs/troubleshooting.md)
+        walks through calls that don't ring, layer by layer (push → notification →
+        full-screen intent → OEM). It resolves most reports.
+
+        **Never paste your `secret`, backend URL, `google-services.json`, FCM tokens, or any
+        credential.** Redact them from logs before submitting — issues here are public.
+
+  - type: input
+    id: version
+    attributes:
+      label: SDK version
+      placeholder: "ai.daakia:callkit-ui-compose:0.1.0"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: module
+    attributes:
+      label: Which module?
+      options:
+        - callkit-core (own UI)
+        - callkit-ui-compose
+        - callkit-ui-views
+    validations:
+      required: true
+
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: What you expected, and what you got instead.
+    validations:
+      required: true
+
+  - type: textarea
+    id: repro
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. App in background / foreground / killed
+        2. Send a call to …
+        3. …
+    validations:
+      required: true
+
+  - type: textarea
+    id: device
+    attributes:
+      label: Device and OS
+      description: Manufacturer matters — OEM battery managers are a common cause.
+      placeholder: "Xiaomi Redmi Note 12, Android 14 (MIUI 15)"
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs
+      description: Relevant logcat. Redact credentials first.
+      render: shell

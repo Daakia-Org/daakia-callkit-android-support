@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Integration question
+    url: https://github.com/Daakia-Org/daakia-callkit-android-support/blob/main/docs/getting-started.md
+    about: The getting-started guide covers setup end to end; docs/choosing-apis.md covers which API to use when.
+  - name: Commercial licensing
+    url: https://daakia.ai
+    about: Licensing, onboarding, and backend credentials — contact Daakia directly.
