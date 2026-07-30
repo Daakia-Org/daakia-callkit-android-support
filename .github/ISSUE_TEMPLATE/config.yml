@@ -1,8 +1,14 @@
 blank_issues_enabled: false
 contact_links:
-  - name: Integration question
+  - name: Ask a question
+    url: https://github.com/Daakia-Org/daakia-callkit-android-support/discussions/new?category=q-a
+    about: Not sure whether it's a bug? Ask in Discussions — answers stay searchable for the next person who hits the same thing.
+  - name: Read the integration docs
     url: https://github.com/Daakia-Org/daakia-callkit-android-support/blob/main/docs/getting-started.md
-    about: The getting-started guide covers setup end to end; docs/choosing-apis.md covers which API to use when.
+    about: getting-started.md covers setup end to end, call-events.md covers the event model, and troubleshooting.md diagnoses calls that don't ring.
+  - name: Report a security vulnerability
+    url: https://github.com/Daakia-Org/daakia-callkit-android-support/security/advisories/new
+    about: Never report a vulnerability in a public issue. Private reporting keeps the thread confidential until a fix ships.
   - name: Commercial licensing
     url: https://daakia.ai
     about: Licensing, onboarding, and backend credentials — contact Daakia directly.

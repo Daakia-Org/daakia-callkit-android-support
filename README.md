@@ -88,8 +88,10 @@ Generated from KDoc and hosted on javadoc.io, versioned to match each release:
 
 ## Support
 
-Found a bug, or stuck on an integration? [Open an issue](../../issues/new/choose).
-[CONTRIBUTING.md](CONTRIBUTING.md) covers what makes a report we can act on.
+- **Got a question?** [Ask in Discussions](../../discussions/new?category=q-a) — answers stay
+  searchable for whoever hits it next.
+- **Found a bug?** [Open an issue](../../issues/new/choose).
+  [CONTRIBUTING.md](CONTRIBUTING.md) covers what makes a report we can act on.
 
 Please don't include your `secret`, backend URL, `google-services.json`, or any credential in
 an issue — redact them before pasting logs.

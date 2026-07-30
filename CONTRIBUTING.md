@@ -54,7 +54,11 @@ public, and rotate a credential you have exposed.
 
 ## Asking a question
 
-Not sure whether something is a bug? These usually answer it faster than we can:
+Questions go in **[Discussions → Q&A](../../discussions/new?category=q-a)**, not the issue tracker.
+Answers there stay searchable for the next person who hits the same thing, and you don't have to
+decide up front whether what you're seeing is a bug.
+
+These usually answer it faster than we can, though:
 
 - [docs/getting-started.md](docs/getting-started.md) — empty app to a ringing call, step by step.
 - [docs/call-events.md](docs/call-events.md) — `ACCEPTED` versus the event flow, the replay buffer,
