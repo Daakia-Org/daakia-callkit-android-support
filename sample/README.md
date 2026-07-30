@@ -1,49 +1,95 @@
 # Daakia CallKit — sample app
 
-A reference integration and manual testbed for the `ai.daakia:callkit-*` SDK. Every screen
-section maps to one part of the public API so each feature can be verified on a real device.
-The app is **not published** — it exists to dogfood the SDK and to show hosts a clean
-integration.
+A complete, runnable integration of the `ai.daakia:callkit-*` SDK. Every section of its one screen
+maps to one part of the public API, and every SDK result and call event is appended to an on-screen
+log — so you can watch exactly what the SDK does on a real device before wiring it into your own
+app.
 
-## Architecture
+Two ways to use it:
 
-- **MVVM + Compose (Material 3).** [`SampleViewModel`](src/main/java/ai/daakia/callkit/sample/ui/SampleViewModel.kt)
-  owns the UI state and calls the SDK; [`HomeScreen`](src/main/java/ai/daakia/callkit/sample/ui/HomeScreen.kt)
-  is a stateless render of it. Every SDK result and every `callEvents` emission is appended to
-  an on-screen activity log.
-- **No secrets in source.** [`SampleConfig`](src/main/java/ai/daakia/callkit/sample/config/SampleConfig.kt)
-  resolves the backend `baseUrl`/`secret` from `BuildConfig` (injected from the gitignored
-  `local.properties` at build time) with an on-device override saved from the in-app Settings
-  section. The secret is masked in the UI and never logged.
-- **Push intake via the host's own service.**
-  [`SampleFirebaseMessagingService`](src/main/java/ai/daakia/callkit/sample/push/SampleFirebaseMessagingService.kt)
-  forwards every message to `DaakiaCallKit.handleRemoteMessage()` and re-registers the device
-  on token rotation — the path most integrators use. (A host with no messaging service of its
-  own could instead register the drop-in `ai.daakia.callkit.push.DaakiaMessagingService`.)
+- **Read it.** It is a worked example of the integration described in
+  [docs/getting-started.md](../docs/getting-started.md) — push intake, device registration, call
+  events, the killed-state path, and the incoming-call screen.
+- **Run it.** Point it at your own Daakia credentials and place a real call to yourself. If
+  something misbehaves in your app, reproducing it here first tells you whether the problem is the
+  SDK or your integration — and a bug report that reproduces here is one we can act on immediately.
+
+It consumes the SDK from Maven Central exactly as your app will. There is no privileged access to
+SDK internals anywhere in this project.
+
+## Requirements
+
+- Android Studio, and an Android device or emulator on API 23+ (the SDK's `minSdk`)
+- JDK 21 — Gradle auto-provisions it if you don't have it, so you can usually ignore this
+- A Firebase project with Cloud Messaging enabled
+- A Daakia backend URL and customer `secret` — contact [Daakia](https://daakia.ai) if you don't
+  have these yet
 
 ## Setup
 
-1. **Firebase.** Drop your own `google-services.json` into `sample/` (it is gitignored; a CI
-   placeholder is used otherwise). The project it belongs to must have Cloud Messaging enabled.
-2. **Backend credentials.** Add to the repo-root `local.properties` (gitignored — never
-   committed):
+**1. Firebase.** Put your own `google-services.json` in `sample/`. It is gitignored, and the
+`google-services.ci.json` placeholder committed here only exists so the build can be verified in
+CI — it will not deliver push messages.
 
-   ```properties
-   DAAKIA_BASE_URL=https://<your-daakia-backend>
-   DAAKIA_SECRET=<your-customer-secret>
-   ```
+**2. Backend credentials.** Add these to `local.properties` in the repository root (gitignored,
+never commit it):
 
-   You can also leave these out and enter them at runtime in the app's **Configuration**
-   section; they persist on-device.
-3. **Build & install.**
+```properties
+DAAKIA_BASE_URL=https://<your-daakia-backend>
+DAAKIA_SECRET=<your-customer-secret>
+```
 
-   ```bash
-   ./gradlew :sample:assembleDebug        # or :sample:installDebug onto a device
-   ```
+You can skip this and type them into the app's **Configuration** section at runtime instead; they
+persist on-device. Either way the secret is masked in the UI and never written to the log.
 
-## What each section tests
+**3. Build and run.**
 
-| Section | SDK surface exercised |
+```bash
+./gradlew :sample:installDebug      # or :sample:assembleDebug for just the APK
+```
+
+## Copying from this app
+
+Most of it transfers directly. Two things do not:
+
+**Take one UI module, not both.** This app depends on `callkit-ui-compose` *and*
+`callkit-ui-views` so its style picker can preview presets from both toolkits on-device. **Your app
+must pick exactly one** — each registers an incoming-call Activity, and whichever
+`DaakiaIncomingCallUi.install()` runs last wins, so shipping both makes the outcome depend on
+initialisation order. See [Never add both](../docs/call-screen-ui.md).
+
+```kotlin
+implementation("ai.daakia:callkit-ui-compose:0.1.0")   // Compose apps
+// or
+implementation("ai.daakia:callkit-ui-views:0.1.0")     // XML Views apps
+```
+
+Either one brings `callkit-core` in transitively — don't declare it alongside them.
+
+**`DemoCallActivity` is a placeholder.** It opens when a call is accepted and says so on screen. Its
+mute button and timer are cosmetic and there is no media of any kind. CallKit signals the call;
+joining it is your app's job — handle the `ACCEPTED` event and open your own call UI with whatever
+audio/video stack you already use.
+
+## How it is built
+
+- **MVVM + Compose (Material 3).** [`SampleViewModel`](src/main/java/ai/daakia/callkit/sample/ui/SampleViewModel.kt)
+  owns the UI state and calls the SDK; [`HomeScreen`](src/main/java/ai/daakia/callkit/sample/ui/HomeScreen.kt)
+  is a stateless render of it.
+- **No secrets in source.** [`SampleConfig`](src/main/java/ai/daakia/callkit/sample/config/SampleConfig.kt)
+  resolves the backend `baseUrl`/`secret` from `BuildConfig` (injected from the gitignored
+  `local.properties` at build time), with an on-device override from the in-app Configuration
+  section.
+- **Push intake via the app's own service.**
+  [`SampleFirebaseMessagingService`](src/main/java/ai/daakia/callkit/sample/push/SampleFirebaseMessagingService.kt)
+  forwards every message to `DaakiaCallKit.handleRemoteMessage()` and re-registers the device on
+  token rotation — the path most integrations use. If your app has no messaging service of its own,
+  you can register the drop-in `ai.daakia.callkit.push.DaakiaMessagingService` instead and skip this
+  file entirely. See [choosing-apis.md](../docs/choosing-apis.md).
+
+## What each section exercises
+
+| Section | SDK surface |
 |---|---|
 | Status | `canUseFullScreenIntent`, init state |
 | Configuration | `DaakiaCallKit.initialize` (re-init on apply) |
@@ -54,9 +100,11 @@ integration.
 | Local control & permissions | `endCall`, `openFullScreenIntentSettings`, notification permission |
 | Incoming call screen | `DaakiaIncomingCallUi.install` — pick the module (Compose/Views) + style used for real calls; persisted and previewable |
 | Activity log | `callEvents` flow + `consumeLaunchEvent` (accept-from-killed-state) |
-| Demo in-call screen | `DemoCallActivity`, opened on accept — a labelled placeholder for the host's own audio/video call UI (no real media) |
+| Demo in-call screen | `DemoCallActivity`, opened on accept — a labelled placeholder for your own call UI (no real media) |
 
 ## Verifying a real call end-to-end (single device)
+
+You can call yourself — no second device needed.
 
 1. Enter credentials (or ship them via `local.properties`) and confirm **Status → SDK:
    initialized**.
@@ -64,11 +112,11 @@ integration.
 3. In **Device registration**, set a username, fetch the token, and **Register device**.
 4. In **Place a call**, set **Target username** to that same username and **Start call by
    username** — the device should ring with the installed call screen. Watch the log for the
-   `INCOMING` / `ACCEPTED` / `DECLINED` / `TIMED_OUT` events. Accepting opens the demo in-call
-   screen (`DemoCallActivity`). It is a placeholder, and says so on screen: CallKit signals the
-   call, but joining the media is your app's choice — open your own call UI on the `ACCEPTED`
-   event and connect with whatever stack you already use. The mute button and call timer there
-   are cosmetic. **Leave** returns to the app.
-5. To exercise the killed-state path, configure the fallback, swipe the app away, then place a
-   call and accept it — the app relaunches (into the demo in-call screen) and the log shows the
-   accept `via launch intent`.
+   `INCOMING` / `ACCEPTED` / `DECLINED` / `TIMED_OUT` events. Accepting opens `DemoCallActivity`.
+   **Leave** returns to the app.
+5. To exercise the killed-state path, configure the fallback, swipe the app away, then place a call
+   and accept it — the app relaunches into the demo in-call screen and the log shows the accept
+   `via launch intent`.
+
+If it doesn't ring, [docs/troubleshooting.md](../docs/troubleshooting.md) diagnoses it layer by
+layer. OEM battery managers on Xiaomi/MIUI, Oppo, Vivo and Samsung are the most common cause.
