@@ -44,10 +44,8 @@ dependencies {
 You do **not** need to add `firebase-messaging` — the SDK exposes it as an `api` dependency,
 so it arrives transitively.
 
-> **Pre-release note.** The SDK is not on Maven Central yet. Until it is, build it locally
-> from the SDK repo with `./gradlew publishToMavenLocal`, add `mavenLocal()` to the
-> `dependencyResolutionManagement { repositories { ... } }` block in your `settings.gradle.kts`,
-> and depend on `ai.daakia:callkit-ui-compose:0.1.0-SNAPSHOT`.
+The artifacts are on Maven Central, so `mavenCentral()` in your
+`dependencyResolutionManagement { repositories { ... } }` block is all you need.
 
 ## Step 2 — Add Firebase to your app
 
@@ -506,4 +504,6 @@ see [troubleshooting.md](troubleshooting.md).
 - [call-screen-ui.md](call-screen-ui.md) — the preset styles, theming, and building your own call screen
 - [troubleshooting.md](troubleshooting.md) — full diagnosis guide when calls don't ring
 - [permissions.md](permissions.md) — every permission the SDK declares and why
-- [API reference](https://javadoc.io/doc/ai.daakia/callkit-core/latest/) — generated from source
+- [API reference](https://javadoc.io/doc/ai.daakia/callkit-core) — generated from source
+  ([callkit-ui-compose](https://javadoc.io/doc/ai.daakia/callkit-ui-compose),
+  [callkit-ui-views](https://javadoc.io/doc/ai.daakia/callkit-ui-views))

@@ -1,5 +1,9 @@
 # Daakia CallKit — Android SDK
 
+[![Maven Central](https://img.shields.io/maven-central/v/ai.daakia/callkit-core?label=Maven%20Central)](https://central.sonatype.com/artifact/ai.daakia/callkit-core)
+[![API docs](https://javadoc.io/badge2/ai.daakia/callkit-core/API%20docs.svg)](https://javadoc.io/doc/ai.daakia/callkit-core)
+[![License](https://img.shields.io/badge/license-Proprietary-blue)](LICENSE)
+
 Native Android SDK for Daakia-backed incoming call signaling: device token registration,
 FCM push handling, full-screen incoming call notifications, call lifecycle events with
 killed-state webhook fallback, and optional pre-built incoming-call screens (Jetpack Compose
@@ -71,7 +75,7 @@ DaakiaCallKit.configureCallEventFallback(setOf(CallEventAction.ACCEPT))  // work
 
 ### API reference
 
-Generated from KDoc and hosted on javadoc.io. These go live once `0.1.0` reaches Maven Central:
+Generated from KDoc and hosted on javadoc.io, versioned to match each release:
 
 - [`callkit-core`](https://javadoc.io/doc/ai.daakia/callkit-core/latest/)
 - [`callkit-ui-compose`](https://javadoc.io/doc/ai.daakia/callkit-ui-compose/latest/)

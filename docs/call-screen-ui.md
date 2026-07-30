@@ -46,9 +46,9 @@ same behavior. They differ only in what they drag into your build.
 
 ```kotlin
 dependencies {
-    implementation("ai.daakia:callkit-ui-compose:<version>")
+    implementation("ai.daakia:callkit-ui-compose:0.1.0")
     // or
-    implementation("ai.daakia:callkit-ui-views:<version>")
+    implementation("ai.daakia:callkit-ui-views:0.1.0")
 }
 ```
 
