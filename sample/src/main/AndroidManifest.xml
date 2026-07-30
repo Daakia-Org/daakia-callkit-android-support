@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <application
+        android:name=".SampleApp"
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.DaakiaCallKitSample">
+
+        <!--
+            The sample owns its FirebaseMessagingService and forwards to
+            DaakiaCallKit.handleRemoteMessage(). A host with no messaging service of its own
+            could instead register ai.daakia.callkit.push.DaakiaMessagingService here.
+        -->
+        <service
+            android:name=".push.SampleFirebaseMessagingService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
+        <activity
+            android:name=".MainActivity"
+            android:launchMode="singleTop"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!--
+            Stand-in in-call screen the sample opens once a call is accepted — it carries no
+            media; a real host launches its own audio/video call UI here instead.
+
+            Calls are usually accepted from the lock screen, so this screen has to appear over
+            the keyguard and wake the device, like any other calling app: showWhenLocked +
+            turnScreenOn (API 27+) alongside the legacy showOnLockScreen for older releases.
+            Declared here as well as in code so the window is created with them already set.
+            singleTop because the SDK relaunches the host task on accept — a repeat accept
+            should reuse this screen instead of stacking another copy behind it.
+        -->
+        <activity
+            android:name=".DemoCallActivity"
+            android:exported="false"
+            android:launchMode="singleTop"
+            android:showOnLockScreen="true"
+            android:showWhenLocked="true"
+            android:turnScreenOn="true"
+            android:theme="@style/Theme.DaakiaCallKitSample" />
+    </application>
+
+</manifest>

@@ -1,0 +1,29 @@
+# Gradle
+.gradle/
+build/
+
+# Machine-specific (Android SDK path) AND the sample's backend credentials.
+# The sample reads DAAKIA_BASE_URL / DAAKIA_SECRET from here — never commit it.
+local.properties
+
+# Your own Firebase config. The sample needs one, but it is yours, not ours.
+# A CI placeholder (google-services.ci.json) is committed for build verification only.
+google-services.json
+
+# IDE
+.idea/
+*.iml
+.kotlin/
+captures/
+.externalNativeBuild
+.cxx
+
+# macOS
+.DS_Store
+
+# Signing keys & credentials — never commit
+*.jks
+*.keystore
+*.gpg
+secring.*
+signing.properties
