@@ -1,6 +1,7 @@
 package ai.daakia.callkit.sample.config
 
 import ai.daakia.callkit.DaakiaCallKitConfig
+import ai.daakia.callkit.model.StaleCallBehavior
 import ai.daakia.callkit.sample.BuildConfig
 import ai.daakia.callkit.ui.IncomingCallStyle
 import android.content.Context
@@ -100,9 +101,25 @@ class SampleConfig(
 
     /** The SDK config, or `null` when credentials are incomplete. */
     fun toDaakiaConfig(callTimeout: Duration = 30.seconds): DaakiaCallKitConfig? =
-        if (isComplete) DaakiaCallKitConfig(baseUrl = baseUrl, secret = secret, callTimeout = callTimeout) else null
+        if (isComplete) {
+            DaakiaCallKitConfig(
+                baseUrl = baseUrl,
+                secret = secret,
+                callTimeout = callTimeout,
+                // A device that is offline when a call is placed gets the push on reconnect,
+                // which can be hours later. Anything older than this window is not rung;
+                // the user gets a missed-call notification instead.
+                staleCallWindow = STALE_CALL_WINDOW,
+                staleCallBehavior = StaleCallBehavior.MISSED_NOTIFICATION,
+            )
+        } else {
+            null
+        }
 
     private companion object {
+        /** How old a call push may be and still ring. */
+        val STALE_CALL_WINDOW = 60.seconds
+
         const val PREFS_NAME = "daakia_sample_config"
         const val KEY_BASE_URL = "base_url"
         const val KEY_SECRET = "secret"
