@@ -25,7 +25,7 @@ jobs:
           distribution: temurin
           java-version: 21
 
-      - uses: gradle/actions/setup-gradle@v4
+      - uses: gradle/actions/setup-gradle@v6
 
       # The sample applies the Google Services plugin, which fails the build if
       # google-services.json is absent. The real file is yours and is gitignored, so CI drops in
