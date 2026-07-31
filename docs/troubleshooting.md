@@ -225,7 +225,9 @@ If they never arrive at all, check:
 
 ## Still stuck
 
-Reproduce it in the sample app (`sample/`) first. It exercises every public API with an on-screen
+Reproduce it in the
+[sample app](https://github.com/Daakia-Org/daakia-callkit-android-support/tree/main/sample) first.
+It exercises every public API with an on-screen
 activity log, so it separates "the SDK is misbehaving" from "my integration is wrong" in about five
 minutes. If it reproduces there, that's a bug — file it with the sample's log output, the device
 make/model, and the Android version.

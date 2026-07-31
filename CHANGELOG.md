@@ -7,6 +7,36 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- The sample app moved to the public support repo,
+  [daakia-callkit-android-support](https://github.com/Daakia-Org/daakia-callkit-android-support/tree/main/sample),
+  where it consumes `ai.daakia:*` from Maven Central exactly as a host app does. Nothing about
+  the published artifacts changes. CI still builds it against the SDK working tree before
+  release, so an API break is caught before it reaches Central.
+
+### Documentation
+
+- The API reference is published to GitHub Pages on each release, at
+  [daakia-org.github.io/daakia-callkit-android-support](https://daakia-org.github.io/daakia-callkit-android-support/),
+  with all three modules in one site and the guides linked from the landing page.
+  [javadoc.io](https://javadoc.io/doc/ai.daakia/callkit-core) remains the per-version archive —
+  Pages carries the latest release only.
+- Removed the "source" link from every declaration in the API reference. It pointed into the
+  SDK repository, which is private, so each link 404'd for anyone reading the published site.
+- Releases are announced on the public support repo, so integrators have somewhere to watch for
+  new versions.
+- Pointed the API-reference links in `README.md` and `docs/getting-started.md` at
+  [javadoc.io](https://javadoc.io/doc/ai.daakia/callkit-core), and listed the two UI modules
+  alongside core. The old `daakia-org.github.io` links were 404s — GitHub Pages was never
+  enabled for this repo, so javadoc.io is the API-docs home.
+- Updated the rest of the docs for the `0.1.0` Maven Central release: replaced the `<version>`
+  placeholders in the `README.md` and `docs/call-screen-ui.md` install snippets with `0.1.0`,
+  dropped the `getting-started.md` note telling readers to build from `mavenLocal()` because the
+  SDK wasn't published yet, replaced the README pre-release banner with an "API not frozen" note,
+  and pointed the README "API at a glance" section at `docs/getting-started.md` instead of
+  promising docs that already shipped. Added Maven Central and javadoc.io badges to the README.
+
 ## [0.1.0] - 2026-07-28
 
 First public release. Full parity with the `daakia_callkit_flutter` plugin on Android, minus
@@ -28,7 +58,7 @@ change before `1.0.0`.
   `getting-started.md` Step 9 was corrected — the old version handled `ACCEPTED` on both
   channels, which double-joins the call — and gained a lock-screen step. `docs/index.html`
   and `README.md` now link the full guide set.
-- Completed the doc set ported from the Flutter SDK's `doc/` directory (Phase 10). New
+- Completed the doc set ported from the Flutter SDK's `doc/` directory. New
   [docs/call-screen-ui.md](docs/call-screen-ui.md) covers the incoming-call screen end to end:
   choosing between `callkit-ui-compose` and `callkit-ui-views`, the three preset styles,
   `DaakiaCallTheme` field by field, and — previously documented only in KDoc — the full
@@ -44,12 +74,19 @@ change before `1.0.0`.
 
 ### Changed
 
+- The published POM's project, licence, and SCM URLs now point at the public support repo,
+  [`daakia-callkit-android-support`](https://github.com/Daakia-Org/daakia-callkit-android-support),
+  which carries the licence, the integration guides, and issue tracking. The SDK repository is
+  private, so the previous URLs returned 404 for anyone resolving the artifact from Maven
+  Central — including the licence link. Maven Central validates that these fields are present
+  and well-formed, not that they resolve, so this would have shipped silently; POMs are
+  immutable, so a dead link in 0.1.0 would have been permanent.
 - Published artifacts no longer include a sources jar. The SDK is proprietary, and a sources
   jar on Maven Central ships the full implementation — including everything under `internal/` —
   to anyone who downloads it. Consumers still get complete KDoc from the javadoc jar, both in
   the IDE and on javadoc.io. Sources can be added in a later release if integrators need
   step-through debugging; the reverse is not possible, since published artifacts are immutable.
-- UI module restructure ahead of Phase 6: `callkit-ui` renamed to `callkit-ui-compose`
+- UI module restructure ahead of the Compose UI work: `callkit-ui` renamed to `callkit-ui-compose`
   (artifact `ai.daakia:callkit-ui-compose`, namespace `ai.daakia.callkit.ui.compose`), and a
   new `callkit-ui-views` module added (artifact `ai.daakia:callkit-ui-views`) for XML Views
   host apps that don't want the Compose dependency. Both will ship preset incoming-call
@@ -60,10 +97,10 @@ change before `1.0.0`.
   firebase-messaging 25.1.0.
 - Toolchain/dependency refresh: Gradle 9.6.1, appcompat 1.7.1, material 1.14.0;
   sample app now targets SDK 37.
-- Phase 8 API polish: the public surface of all three modules was reviewed against a
+- API polish: the public surface of all three modules was reviewed against a
   `javap -public` dump of the release AARs (binary-compatibility-validator still cannot
-  produce one under AGP built-in Kotlin — retried on AGP 9.2.1 / Kotlin 2.3.0, see the note
-  in the root `build.gradle.kts`). Resulting cleanups: the internal `onIncomingCall` sink
+  produce one under AGP built-in Kotlin — retried on AGP 9.2.1 / Kotlin 2.3.0). Resulting
+  cleanups: the internal `onIncomingCall` sink
   moved off `DaakiaCallKit` onto `CallKitRuntime`, and `Caller.toWireJsonString` is now
   `@JvmSynthetic` so this internal helper no longer appears on Java consumers'
   `IncomingCallDataKt`. No Kotlin-visible API changed.
@@ -77,7 +114,7 @@ change before `1.0.0`.
   lock screen (`showWhenLocked`/`turnScreenOn`) for accepts from a locked device. The
   screen labels itself a demo throughout — CallKit only signals the call, and connecting
   the media stays the host app's choice, so nothing here carries real audio or video.
-- Sample app rebuilt as a full SDK testbed (Phase 9): a Material 3 / Compose, MVVM
+- Sample app rebuilt as a full SDK testbed: a Material 3 / Compose, MVVM
   (`SampleViewModel`) reference integration exercising every public API — device registration,
   `startCallByUsername`/`startCallByToken`, `sendCallEvent`, killed-state fallback config, the
   sent-event cache, `endCall`, the full-screen-intent permission helpers, live `callEvents`
@@ -87,7 +124,8 @@ change before `1.0.0`.
   integration path), rather than the drop-in `DaakiaMessagingService`. Backend credentials are
   read from the gitignored `local.properties` into `BuildConfig` (`DAAKIA_BASE_URL` /
   `DAAKIA_SECRET`) and can be overridden at runtime from an in-app Settings screen — no secret
-  is hard-coded in source. See `sample/README.md`.
+  is hard-coded in source. See the
+  [sample README](https://github.com/Daakia-Org/daakia-callkit-android-support/blob/main/sample/README.md).
 - `DaakiaCallKit.endCall(callId)` — stops a ringing incoming call: silences the ringtone and
   vibration, removes the notification, closes the call screen, and emits
   `CallEventType.ENDED`. Closes a parity gap with the Flutter SDK, whose exported
@@ -111,8 +149,8 @@ change before `1.0.0`.
   developer.android.com. `failOnWarning` is on, so an unresolved KDoc `[reference]` fails
   the build; CI runs `dokkaGenerate` on every PR. This also makes the javadoc jar published
   to Maven Central real documentation instead of the empty placeholder it was before.
-- Outgoing call operations on the facade (Phase 8), completing the public API sketched in
-  the migration plan: `DaakiaCallKit.registerDevice(username, fcmToken)`,
+- Outgoing call operations on the facade, completing the public API:
+  `DaakiaCallKit.registerDevice(username, fcmToken)`,
   `getRegisteredDevice(username, platform = ANDROID)`,
   `startCallByUsername(username, call, message = call.body)`,
   `startCallByToken(token, platform, call, message = call.body)` and
@@ -122,7 +160,7 @@ change before `1.0.0`.
   sent-event cache the killed-state fallback worker uses, so an action already reported for
   a `meetingUid` is never webhooked twice.
 
-- XML Views incoming-call UI (`ai.daakia:callkit-ui-views`, Phase 7): `DaakiaIncomingCallUi.install(style, theme)`
+- XML Views incoming-call UI (`ai.daakia:callkit-ui-views`): `DaakiaIncomingCallUi.install(style, theme)`
   registers a full-screen call screen built on plain Android Views, for host apps that don't
   want the Compose dependency footprint — at full parity with `callkit-ui-compose`'s three
   preset styles (`CLASSIC`, `AURORA` with drifting glow blobs drawn on a custom `View`, `PULSE`
