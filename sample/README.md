@@ -22,7 +22,7 @@ SDK internals anywhere in this project.
 - Android Studio, and an Android device or emulator on API 23+ (the SDK's `minSdk`)
 - JDK 21 — Gradle auto-provisions it if you don't have it, so you can usually ignore this
 - A Firebase project with Cloud Messaging enabled
-- A Daakia backend URL and customer `secret` — contact [Daakia](https://daakia.ai) if you don't
+- A Daakia backend URL and customer `secret` — contact [Daakia](https://www.daakia.co.in) if you don't
   have these yet
 
 ## Setup

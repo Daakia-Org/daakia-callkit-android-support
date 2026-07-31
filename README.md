@@ -1,6 +1,8 @@
 # Daakia CallKit — Android SDK
 
-[![Maven Central](https://img.shields.io/maven-central/v/ai.daakia/callkit-core?label=Maven%20Central)](https://central.sonatype.com/artifact/ai.daakia/callkit-core)
+[![callkit-ui-compose](https://img.shields.io/maven-central/v/ai.daakia/callkit-ui-compose?label=callkit-ui-compose)](https://central.sonatype.com/artifact/ai.daakia/callkit-ui-compose)
+[![callkit-ui-views](https://img.shields.io/maven-central/v/ai.daakia/callkit-ui-views?label=callkit-ui-views)](https://central.sonatype.com/artifact/ai.daakia/callkit-ui-views)
+[![callkit-core](https://img.shields.io/maven-central/v/ai.daakia/callkit-core?label=callkit-core)](https://central.sonatype.com/artifact/ai.daakia/callkit-core)
 [![API docs](https://javadoc.io/badge2/ai.daakia/callkit-core/API%20docs.svg)](https://javadoc.io/doc/ai.daakia/callkit-core)
 [![License](https://img.shields.io/badge/license-Proprietary-blue)](LICENSE)
 
