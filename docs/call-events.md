@@ -24,6 +24,7 @@ phase. You only get involved when something *happens* to the call:
 | Declines (`DECLINED`) | No | `callEvents` flow |
 | Nobody answers (`TIMED_OUT`) | No | `callEvents` flow |
 | Caller cancels, you call `endCall` (`ENDED`) | No | `callEvents` flow |
+| Push arrives too late to ring (`STALE`) | No | `callEvents` flow |
 
 That single "Yes" row is the whole reason there are two APIs instead of one. Accept has to
 reach your app **even when your process is dead**, so it can't be delivered through an
@@ -167,13 +168,14 @@ class MainActivity : ComponentActivity() {
             CallEventType.DECLINED  -> Unit
             CallEventType.TIMED_OUT -> Unit
             CallEventType.ENDED     -> Unit
+            CallEventType.STALE     -> Unit
         }
     }
 }
 ```
 
 Result: `ACCEPTED` fires exactly once (from the intent); `INCOMING` / `DECLINED` / `ENDED` /
-`TIMED_OUT` fire once each (from the flow).
+`TIMED_OUT` / `STALE` fire once each (from the flow).
 
 ---
 
@@ -261,6 +263,57 @@ See [choosing-apis.md](choosing-apis.md) for how this differs from `sendCallEven
 
 ---
 
+## 9. Calls that arrive too late to ring
+
+When a device is offline, FCM does not throw the call push away — it queues it and delivers it
+on reconnect. A call placed at 2:00 PM can therefore land at 3:00 PM, and without a guard the
+phone rings for a call the caller abandoned an hour ago.
+
+The SDK refuses to ring a push older than `staleCallWindow`:
+
+```kotlin
+DaakiaCallKit.initialize(
+    context = this,
+    config = DaakiaCallKitConfig(
+        baseUrl = "https://your-daakia-backend.example.com",
+        secret = "your-customer-secret",
+        staleCallWindow = 60.seconds,                              // default
+        staleCallBehavior = StaleCallBehavior.MISSED_NOTIFICATION, // default
+    ),
+)
+```
+
+`staleCallWindow` and `callTimeout` answer different questions. `callTimeout` is how long the
+phone rings **once it starts**; `staleCallWindow` decides **whether it starts at all**. Set the
+window to at least as long as the caller's side rings — until the caller gives up, the call is
+genuinely still live.
+
+| `staleCallBehavior` | What the user sees |
+|---|---|
+| `MISSED_NOTIFICATION` (default) | A dismissible "Missed call" notification. No ringing, no full-screen intent. |
+| `IGNORE` | Nothing. Choose this only if your app surfaces missed calls its own way. |
+| `RING` | Rings anyway, however old. Pre-guard behaviour. |
+
+Either way a `STALE` event reaches `callEvents`, with the age in `event.reason`, so you can log
+how often it happens.
+
+**The guard fails open.** If the push carries no usable timestamp, or the device clock puts the
+call in the future, the call is treated as fresh and rings. Suppressing a real call is a much
+worse failure than ringing a stale one, so the guard only ever fires on evidence.
+
+**No `call-timeout` webhook is sent for a stale call.** Your backend timed that call out long
+ago; a late report would land against a closed call record.
+
+### Fix it at the source too
+
+The device-side guard is the second line of defence, not the first. The real fix is a short
+**FCM TTL** on the call-invite push, set by whatever sends it: with `android.ttl` of, say,
+`"60s"`, Google's servers drop an undelivered invite instead of queuing it for hours. A push
+that never arrives cannot ring, cannot wake the device, and costs no battery. Ask your backend
+team what TTL call invites are sent with — the default is four weeks.
+
+---
+
 ## Summary
 
 - **`ACCEPTED`** → `consumeLaunchEvent(intent)` in `onCreate`/`onNewIntent`. Nothing else.
@@ -268,3 +321,4 @@ See [choosing-apis.md](choosing-apis.md) for how this differs from `sendCallEven
   filtered out.
 - **Lock screen** → set `showWhenLocked` only when an accept launched you; clear it on stop.
 - **Backend needs killed-state outcomes** → `configureCallEventFallback`.
+- **Calls queued while offline** → handled by `staleCallWindow`; set an FCM TTL as well.

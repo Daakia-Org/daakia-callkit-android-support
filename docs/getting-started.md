@@ -37,7 +37,7 @@ Both UI artifacts pull in `callkit-core`, so you never add it alongside them. Th
 ```kotlin
 // app/build.gradle.kts
 dependencies {
-    implementation("ai.daakia:callkit-ui-compose:0.1.0")
+    implementation("ai.daakia:callkit-ui-compose:1.0.0")
 }
 ```
 

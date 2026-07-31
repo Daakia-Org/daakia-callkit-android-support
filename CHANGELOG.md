@@ -5,7 +5,37 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [1.0.0] - 2026-07-31
+
+**The public API is frozen.** Everything under `ai.daakia.callkit` that is not `internal` is
+stable for the `1.x` line: it will not change incompatibly, additions ship as minor versions and
+fixes as patches.
+
+The guarantee is **source** compatibility: your code keeps compiling against later `1.x`
+releases. It is not binary compatibility — upgrading means recompiling, which is what an Android
+app does anyway. Concretely, `DaakiaCallKitConfig` is a data class, so adding a configuration
+parameter changes the signature of its generated `copy()`; code compiled against an older `1.x`
+and run against a newer one without recompiling can fail on that.
+
+Upgrading from `0.1.0` is a version bump — nothing was removed or renamed, and every new
+configuration parameter has a default. One caveat if you are on Kotlin: `CallEventType` gained a
+`STALE` constant, so an exhaustive `when` over it stops compiling until you add a branch. That is
+a compile error, not a runtime surprise.
+
+### Added
+
+- Stale-call guard. A device that is offline when a call is placed receives the push on
+  reconnect — FCM queues it — so a call from an hour ago used to ring as if it had just come
+  in. `DaakiaCallKitConfig.staleCallWindow` (60 seconds by default) now caps how old a push may
+  be and still ring, and `staleCallBehavior` decides what happens otherwise:
+  `MISSED_NOTIFICATION` (default) posts a dismissible missed-call notification,
+  `IGNORE` drops it, `RING` keeps the previous behaviour. Age is measured from FCM's
+  server-side `sentTime` where available and the payload's `callTimestamp` otherwise, and the
+  guard fails open — an unusable timestamp or a device clock that puts the call in the future
+  counts as fresh, because suppressing a real call is worse than ringing a stale one. No
+  `call-timeout` webhook is sent for a stale call; the backend closed that call long ago.
+- `CallEventType.STALE`, emitted when a call is suppressed by the guard, with the call's age in
+  `CallEvent.reason`.
 
 ### Changed
 

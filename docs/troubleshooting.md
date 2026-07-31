@@ -132,6 +132,29 @@ never really happened.
 Always pass the `callId`. Bare `endCall()` ends whatever is ringing *right now*, which may be a
 newer call that started while the cancellation was in flight.
 
+## An old call rings when the device comes back online
+
+Expected, and configurable. FCM queues a push for an offline device and delivers it on
+reconnect, so a call placed an hour ago arrives now.
+
+The SDK will not ring a push older than `staleCallWindow` (60 seconds by default) — it posts a
+"Missed call" notification instead and emits a `STALE` event. If you are seeing an old call
+*ring*, one of these is true:
+
+- `staleCallBehavior` is set to `RING`.
+- `staleCallWindow` is longer than the delay you are testing.
+- The push carries no usable timestamp, so the guard failed open and let it through. The SDK
+  reads FCM's `sentTime` first and the payload's `callTimestamp` second; if the sender omits
+  both, nothing can tell how old the call is.
+
+Conversely, if a **fresh** call is being suppressed, check the device clock. The guard compares
+the call's timestamp against local time, so a device set hours ahead makes every call look
+stale. Ages are computed in UTC, so time zones themselves are not the problem.
+
+The device-side guard is a backstop. Fix it at the source too by setting a short FCM TTL
+(`android.ttl`) on call-invite pushes — see
+[call-events.md §9](call-events.md#9-calls-that-arrive-too-late-to-ring).
+
 ## Every accept joins the call twice
 
 You're handling `ACCEPTED` on both `consumeLaunchEvent` and the `callEvents` flow. Handle it on
