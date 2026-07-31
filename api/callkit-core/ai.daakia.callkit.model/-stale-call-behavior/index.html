@@ -2,7 +2,7 @@
 <html class="no-js" lang="en">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
-    <title>CallEventType</title>
+    <title>StaleCallBehavior</title>
 <link href="../../../images/logo-icon.svg" rel="icon" type="image/svg"><script>var pathToRoot = "../../../";</script>
     <script>document.documentElement.classList.replace("no-js", "js");</script>
     <script>const storage = localStorage.getItem("dokka-dark-mode")
@@ -89,103 +89,58 @@
         </nav>
         <div id="resizer" class="resizer" data-item-type="BAR"></div>
         <div id="main" data-item-type="SECTION" role="main">
-<div class="main-content" data-page-type="classlike" id="content" pageids="callkit-core::ai.daakia.callkit.model/CallEventType///PointingToDeclaration//340360420">
-  <div class="breadcrumbs"><a href="../../index.html">callkit-core</a><span class="delimiter">/</span><a href="../index.html">ai.daakia.callkit.model</a><span class="delimiter">/</span><span class="current">CallEventType</span></div>
+<div class="main-content" data-page-type="classlike" id="content" pageids="callkit-core::ai.daakia.callkit.model/StaleCallBehavior///PointingToDeclaration//340360420">
+  <div class="breadcrumbs"><a href="../../index.html">callkit-core</a><span class="delimiter">/</span><a href="../index.html">ai.daakia.callkit.model</a><span class="delimiter">/</span><span class="current">StaleCallBehavior</span></div>
   <div class="cover ">
-    <h1 class="cover"><span>Call</span><wbr><span>Event</span><wbr><span><span>Type</span></span></h1>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":callkit-core/release"><div class="symbol monospace"><span class="token keyword">enum </span><a href="index.html">CallEventType</a> : <a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-enum/index.html">Enum</a><span class="token operator">&lt;</span><a href="index.html">CallEventType</a><span class="token operator">&gt; </span></div><p class="paragraph">Kind of call lifecycle event emitted on <code class="lang-kotlin">DaakiaCallKit.callEvents</code>.</p></div></div>
+    <h1 class="cover"><span>Stale</span><wbr><span>Call</span><wbr><span><span>Behavior</span></span></h1>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":callkit-core/release"><div class="symbol monospace"><span class="token keyword">enum </span><a href="index.html">StaleCallBehavior</a> : <a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-enum/index.html">Enum</a><span class="token operator">&lt;</span><a href="index.html">StaleCallBehavior</a><span class="token operator">&gt; </span></div><p class="paragraph">What the SDK does with an incoming-call push that arrives too late to be worth ringing — older than <a href="../../ai.daakia.callkit/-daakia-call-kit-config/stale-call-window.html">ai.daakia.callkit.DaakiaCallKitConfig.staleCallWindow</a>.</p><p class="paragraph">This happens whenever a device is offline while a call is placed: FCM queues the push and delivers it on reconnect, which can be minutes or hours later. Without a guard the phone rings for a call nobody is waiting on.</p></div></div>
   </div>
   <div class="tabbedcontent">
     <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="CONSTRUCTOR,TYPE,PROPERTY,FUNCTION">Members</button><button class="section-tab" data-togglable="ENTRY">Entries</button></div>
     <div class="tabs-section-body">
       <div data-togglable="ENTRY">
         <h2 class="tableheader">Entries</h2>
-        <div class="table"><a data-name="1880222327%2FClasslikes%2F340360420" anchor-label="INCOMING" id="1880222327%2FClasslikes%2F340360420" data-filterable-set=":callkit-core/release"></a>
+        <div class="table"><a data-name="1382278896%2FClasslikes%2F340360420" anchor-label="IGNORE" id="1382278896%2FClasslikes%2F340360420" data-filterable-set=":callkit-core/release"></a>
           <div class="table-row table-row_content" data-togglable="ENTRY" data-filterable-current=":callkit-core/release" data-filterable-set=":callkit-core/release">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
-                  <div><a href="-i-n-c-o-m-i-n-g/index.html">INCOMING</a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1880222327%2FClasslikes%2F340360420"></span>
+                  <div><a href="-i-g-n-o-r-e/index.html">IGNORE</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1382278896%2FClasslikes%2F340360420"></span>
                     <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":callkit-core/release"><div class="symbol monospace"><div class="block"><a href="-i-n-c-o-m-i-n-g/index.html">INCOMING</a></div></div><div class="brief "><p class="paragraph">An incoming call was received and is ringing.</p></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":callkit-core/release"><div class="symbol monospace"><div class="block"><a href="-i-g-n-o-r-e/index.html">IGNORE</a></div></div><div class="brief "><p class="paragraph">Drop the push silently. Nothing rings, nothing is posted, and the user never learns about the call.</p></div></div></div>
                 </div>
               </div>
             </div>
           </div>
-<a data-name="-432968136%2FClasslikes%2F340360420" anchor-label="ACCEPTED" id="-432968136%2FClasslikes%2F340360420" data-filterable-set=":callkit-core/release"></a>
+<a data-name="-474425703%2FClasslikes%2F340360420" anchor-label="MISSED_NOTIFICATION" id="-474425703%2FClasslikes%2F340360420" data-filterable-set=":callkit-core/release"></a>
           <div class="table-row table-row_content" data-togglable="ENTRY" data-filterable-current=":callkit-core/release" data-filterable-set=":callkit-core/release">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
-                  <div><a href="-a-c-c-e-p-t-e-d/index.html">ACCEPTED</a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-432968136%2FClasslikes%2F340360420"></span>
+                  <div><a href="-m-i-s-s-e-d_-n-o-t-i-f-i-c-a-t-i-o-n/index.html">MISSED_NOTIFICATION</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-474425703%2FClasslikes%2F340360420"></span>
                     <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":callkit-core/release"><div class="symbol monospace"><div class="block"><a href="-a-c-c-e-p-t-e-d/index.html">ACCEPTED</a></div></div><div class="brief "><p class="paragraph">The user accepted the call from the notification or call screen.</p></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":callkit-core/release"><div class="symbol monospace"><div class="block"><a href="-m-i-s-s-e-d_-n-o-t-i-f-i-c-a-t-i-o-n/index.html">MISSED_NOTIFICATION</a></div></div><div class="brief "><p class="paragraph">Post a dismissible "missed call" notification instead of ringing. No sound, no full-screen intent; tapping it opens your app.</p></div></div></div>
                 </div>
               </div>
             </div>
           </div>
-<a data-name="373346431%2FClasslikes%2F340360420" anchor-label="DECLINED" id="373346431%2FClasslikes%2F340360420" data-filterable-set=":callkit-core/release"></a>
+<a data-name="718188878%2FClasslikes%2F340360420" anchor-label="RING" id="718188878%2FClasslikes%2F340360420" data-filterable-set=":callkit-core/release"></a>
           <div class="table-row table-row_content" data-togglable="ENTRY" data-filterable-current=":callkit-core/release" data-filterable-set=":callkit-core/release">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
-                  <div><a href="-d-e-c-l-i-n-e-d/index.html">DECLINED</a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="373346431%2FClasslikes%2F340360420"></span>
+                  <div><a href="-r-i-n-g/index.html">RING</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="718188878%2FClasslikes%2F340360420"></span>
                     <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":callkit-core/release"><div class="symbol monospace"><div class="block"><a href="-d-e-c-l-i-n-e-d/index.html">DECLINED</a></div></div><div class="brief "><p class="paragraph">The user declined the call.</p></div></div></div>
-                </div>
-              </div>
-            </div>
-          </div>
-<a data-name="-49557359%2FClasslikes%2F340360420" anchor-label="ENDED" id="-49557359%2FClasslikes%2F340360420" data-filterable-set=":callkit-core/release"></a>
-          <div class="table-row table-row_content" data-togglable="ENTRY" data-filterable-current=":callkit-core/release" data-filterable-set=":callkit-core/release">
-            <div class="main-subrow keyValue ">
-              <div class=""><span class="inline-flex">
-                  <div><a href="-e-n-d-e-d/index.html">ENDED</a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-49557359%2FClasslikes%2F340360420"></span>
-                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                  </span></span></div>
-              <div>
-                <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":callkit-core/release"><div class="symbol monospace"><div class="block"><a href="-e-n-d-e-d/index.html">ENDED</a></div></div><div class="brief "><p class="paragraph">The call ended for a reason other than a ring timeout.</p></div></div></div>
-                </div>
-              </div>
-            </div>
-          </div>
-<a data-name="988974461%2FClasslikes%2F340360420" anchor-label="TIMED_OUT" id="988974461%2FClasslikes%2F340360420" data-filterable-set=":callkit-core/release"></a>
-          <div class="table-row table-row_content" data-togglable="ENTRY" data-filterable-current=":callkit-core/release" data-filterable-set=":callkit-core/release">
-            <div class="main-subrow keyValue ">
-              <div class=""><span class="inline-flex">
-                  <div><a href="-t-i-m-e-d_-o-u-t/index.html">TIMED_OUT</a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="988974461%2FClasslikes%2F340360420"></span>
-                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                  </span></span></div>
-              <div>
-                <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":callkit-core/release"><div class="symbol monospace"><div class="block"><a href="-t-i-m-e-d_-o-u-t/index.html">TIMED_OUT</a></div></div><div class="brief "><p class="paragraph">The call rang out without being answered.</p></div></div></div>
-                </div>
-              </div>
-            </div>
-          </div>
-<a data-name="-532576976%2FClasslikes%2F340360420" anchor-label="STALE" id="-532576976%2FClasslikes%2F340360420" data-filterable-set=":callkit-core/release"></a>
-          <div class="table-row table-row_content" data-togglable="ENTRY" data-filterable-current=":callkit-core/release" data-filterable-set=":callkit-core/release">
-            <div class="main-subrow keyValue ">
-              <div class=""><span class="inline-flex">
-                  <div><a href="-s-t-a-l-e/index.html">STALE</a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-532576976%2FClasslikes%2F340360420"></span>
-                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                  </span></span></div>
-              <div>
-                <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":callkit-core/release"><div class="symbol monospace"><div class="block"><a href="-s-t-a-l-e/index.html">STALE</a></div></div><div class="brief "><p class="paragraph">A call push arrived too late to ring — older than <a href="../../ai.daakia.callkit/-daakia-call-kit-config/stale-call-window.html">ai.daakia.callkit.DaakiaCallKitConfig.staleCallWindow</a>, typically because the device was offline when the call was placed. The phone did not ring; what the user saw depends on <a href="../-stale-call-behavior/index.html">ai.daakia.callkit.model.StaleCallBehavior</a>. <a href="../-call-event/reason.html">CallEvent.reason</a> carries the call's age.</p></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":callkit-core/release"><div class="symbol monospace"><div class="block"><a href="-r-i-n-g/index.html">RING</a></div></div><div class="brief "><p class="paragraph">Ring anyway, however old the call is. The behaviour of releases before the stale-call guard existed.</p></div></div></div>
                 </div>
               </div>
             </div>
@@ -194,17 +149,17 @@
       </div>
       <div data-togglable="PROPERTY">
         <h2 class="tableheader">Properties</h2>
-        <div class="table"><a data-name="-2029847509%2FProperties%2F340360420" anchor-label="entries" id="-2029847509%2FProperties%2F340360420" data-filterable-set=":callkit-core/release"></a>
+        <div class="table"><a data-name="-1189891272%2FProperties%2F340360420" anchor-label="entries" id="-1189891272%2FProperties%2F340360420" data-filterable-set=":callkit-core/release"></a>
           <div class="table-row table-row_content" data-filterable-current=":callkit-core/release" data-filterable-set=":callkit-core/release">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="entries.html"><span><span>entries</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2029847509%2FProperties%2F340360420"></span>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1189891272%2FProperties%2F340360420"></span>
                     <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":callkit-core/release"><div class="symbol monospace"><span class="token keyword">val </span><a href="entries.html">entries</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.enums/-enum-entries/index.html">EnumEntries</a><span class="token operator">&lt;</span><a href="index.html">CallEventType</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">Returns a representation of an immutable list of all enum entries, in the order they're declared.</p></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":callkit-core/release"><div class="symbol monospace"><span class="token keyword">val </span><a href="entries.html">entries</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.enums/-enum-entries/index.html">EnumEntries</a><span class="token operator">&lt;</span><a href="index.html">StaleCallBehavior</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">Returns a representation of an immutable list of all enum entries, in the order they're declared.</p></div></div></div>
                 </div>
               </div>
             </div>
@@ -243,32 +198,32 @@
       </div>
       <div data-togglable="FUNCTION">
         <h2 class="tableheader">Functions</h2>
-        <div class="table"><a data-name="-1396490415%2FFunctions%2F340360420" anchor-label="valueOf" id="-1396490415%2FFunctions%2F340360420" data-filterable-set=":callkit-core/release"></a>
+        <div class="table"><a data-name="1477911908%2FFunctions%2F340360420" anchor-label="valueOf" id="1477911908%2FFunctions%2F340360420" data-filterable-set=":callkit-core/release"></a>
           <div class="table-row table-row_content" data-filterable-current=":callkit-core/release" data-filterable-set=":callkit-core/release">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="value-of.html"><span>value</span><wbr><span><span>Of</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1396490415%2FFunctions%2F340360420"></span>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1477911908%2FFunctions%2F340360420"></span>
                     <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":callkit-core/release"><div class="symbol monospace"><span class="token keyword">fun </span><a href="value-of.html"><span class="token function">valueOf</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">value<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="index.html">CallEventType</a></div><div class="brief "><p class="paragraph">Returns the enum constant of this type with the specified name. The string must match exactly an identifier used to declare an enum constant in this type. (Extraneous whitespace characters are not permitted.)</p></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":callkit-core/release"><div class="symbol monospace"><span class="token keyword">fun </span><a href="value-of.html"><span class="token function">valueOf</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">value<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="index.html">StaleCallBehavior</a></div><div class="brief "><p class="paragraph">Returns the enum constant of this type with the specified name. The string must match exactly an identifier used to declare an enum constant in this type. (Extraneous whitespace characters are not permitted.)</p></div></div></div>
                 </div>
               </div>
             </div>
           </div>
-<a data-name="274251293%2FFunctions%2F340360420" anchor-label="values" id="274251293%2FFunctions%2F340360420" data-filterable-set=":callkit-core/release"></a>
+<a data-name="855535984%2FFunctions%2F340360420" anchor-label="values" id="855535984%2FFunctions%2F340360420" data-filterable-set=":callkit-core/release"></a>
           <div class="table-row table-row_content" data-filterable-current=":callkit-core/release" data-filterable-set=":callkit-core/release">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="values.html"><span><span>values</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="274251293%2FFunctions%2F340360420"></span>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="855535984%2FFunctions%2F340360420"></span>
                     <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":callkit-core/release"><div class="symbol monospace"><span class="token keyword">fun </span><a href="values.html"><span class="token function">values</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-array/index.html">Array</a><span class="token operator">&lt;</span><a href="index.html">CallEventType</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">Returns an array containing the constants of this enum type, in the order they're declared.</p></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":callkit-core/release"><div class="symbol monospace"><span class="token keyword">fun </span><a href="values.html"><span class="token function">values</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-array/index.html">Array</a><span class="token operator">&lt;</span><a href="index.html">StaleCallBehavior</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">Returns an array containing the constants of this enum type, in the order they're declared.</p></div></div></div>
                 </div>
               </div>
             </div>
