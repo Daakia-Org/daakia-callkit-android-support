@@ -1,0 +1,87 @@
+name: Publish release
+
+# Creates a GitHub release here so external developers can watch this repo for new SDK versions.
+# Until now the only release lived on the private SDK repo, where nobody outside can see it.
+#
+# Run this by hand (Actions -> Publish release -> Run workflow) as the last step of a release,
+# AFTER the artifacts are live on Maven Central. It is deliberately not automatic: the SDK's tag
+# workflow uploads a deployment that still needs manual approval, and it can be dropped instead
+# of published. A release announced here for a version that never shipped is worse than a late one.
+#
+# Notes come from CHANGELOG.md, not from commit messages: the commits are in a private repo and
+# their messages are written for the people who work in it.
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version to release, without the "v" (e.g. 0.2.0). Must already be on Maven Central and have a CHANGELOG section.'
+        required: true
+        type: string
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      # Fails early and specifically rather than producing an empty release body.
+      - name: Extract the changelog section
+        id: notes
+        env:
+          VERSION: ${{ inputs.version }}
+        run: |
+          # index($0, v) == 1 rather than a regex match: the heading contains [ ] and dots, which
+          # a regex would read as a character class and any-char. "## [0.1.0]" as a pattern
+          # matches nothing at all, silently.
+          if [ "$(awk -v v="## [${VERSION}]" 'index($0, v) == 1 { print "yes"; exit }' CHANGELOG.md)" != "yes" ]; then
+            echo "::error::No '## [${VERSION}]' section in CHANGELOG.md. The mirror from the SDK repo may not have run yet — check that its docs sync workflow succeeded."
+            exit 1
+          fi
+          awk -v v="## [${VERSION}]" '
+            index($0, v) == 1 { found = 1; next }
+            found && index($0, "## [") == 1 { exit }
+            found { print }
+          ' CHANGELOG.md > notes.md
+          if [ ! -s notes.md ]; then
+            echo "::error::The '## [${VERSION}]' section is empty."
+            exit 1
+          fi
+          echo "Release notes:"
+          cat notes.md
+
+      # The catalog is what the sample builds against, so this is a real check that the version
+      # being announced is the one this repo is set up to consume.
+      - name: Check the catalog is on this version
+        env:
+          VERSION: ${{ inputs.version }}
+        run: |
+          catalog=$(grep -E '^daakiaCallkit = ' gradle/libs.versions.toml | cut -d'"' -f2)
+          if [ "$catalog" != "$VERSION" ]; then
+            echo "::error::gradle/libs.versions.toml pins daakiaCallkit=$catalog but you asked to release $VERSION. Bump the catalog first — CI then proves the sample builds against it."
+            exit 1
+          fi
+
+      - name: Confirm the version is actually on Maven Central
+        env:
+          VERSION: ${{ inputs.version }}
+        run: |
+          url="https://repo1.maven.org/maven2/ai/daakia/callkit-core/${VERSION}/callkit-core-${VERSION}.pom"
+          if ! curl -sfI "$url" >/dev/null; then
+            echo "::error::$url is not reachable. Publish to Maven Central first, and allow a few hours for the CDN."
+            exit 1
+          fi
+
+      - name: Create the release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VERSION: ${{ inputs.version }}
+        run: |
+          gh release create "v${VERSION}" \
+            --title "${VERSION}" \
+            --notes-file notes.md \
+            --target "${GITHUB_SHA}"
