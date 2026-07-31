@@ -19,11 +19,11 @@ to Maven Central.
 
 ```kotlin
 dependencies {
-    implementation("ai.daakia:callkit-ui-compose:0.1.0")
+    implementation("ai.daakia:callkit-ui-compose:1.0.0")
     // or, for XML Views apps:
-    implementation("ai.daakia:callkit-ui-views:0.1.0")
+    implementation("ai.daakia:callkit-ui-views:1.0.0")
     // or, if you build your own incoming-call UI:
-    implementation("ai.daakia:callkit-core:0.1.0")
+    implementation("ai.daakia:callkit-core:1.0.0")
 }
 ```
 

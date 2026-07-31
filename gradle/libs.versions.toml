@@ -1,6 +1,6 @@
 [versions]
 # The Daakia CallKit SDK. Bump this one line to move the sample to a new release.
-daakiaCallkit = "0.1.0"
+daakiaCallkit = "1.0.0"
 
 # Must stay in step with the SDK repo's catalog. A Gradle composite build shares one plugin
 # classloader, so if these drift the -Pdaakia.useLocalSdk build breaks while both builds still
