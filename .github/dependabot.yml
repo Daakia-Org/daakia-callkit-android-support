@@ -1,0 +1,29 @@
+version: 2
+
+updates:
+  # The sample is the first code an evaluating developer reads, so it should not be visibly
+  # stale. Its dependencies live in gradle/libs.versions.toml.
+  - package-ecosystem: gradle
+    directory: "/"
+    schedule:
+      interval: monthly
+    open-pull-requests-limit: 5
+    labels:
+      - dependencies
+    ignore:
+      # The SDK version is bumped deliberately as part of a release, once the artifacts are
+      # live on Maven Central — see the release runbook in the SDK repo. A bot racing that
+      # would open a PR for a version the release process has not finished announcing.
+      - dependency-name: "ai.daakia:*"
+      # A composite build shares one plugin classloader, so these two must be bumped in step
+      # with the SDK repo's catalog. CI fails loudly if they drift; a solo bump here would
+      # break the internal canary build rather than anything visible in this repo.
+      - dependency-name: "com.android.*"
+      - dependency-name: "org.jetbrains.kotlin*"
+
+  - package-ecosystem: github-actions
+    directory: "/"
+    schedule:
+      interval: monthly
+    labels:
+      - dependencies
