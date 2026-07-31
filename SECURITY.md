@@ -22,7 +22,7 @@ Use one of these instead:
 1. **[Report a vulnerability privately](https://github.com/Daakia-Org/daakia-callkit-android-support/security/advisories/new)**
    — preferred. GitHub's private reporting keeps the whole thread confidential until a fix ships,
    and lets us credit you when it does.
-2. **Email <info@daakia.co.in>** with `SECURITY` in the subject, if you would rather not use GitHub.
+2. **Email <support@daakia.co.in>** with `SECURITY` in the subject, if you would rather not use GitHub.
 
 Please include: the SDK version and module, what an attacker can achieve, the steps to reproduce,
 and the device and Android version if it is platform-specific.
@@ -55,7 +55,7 @@ have it rotated. Deleting the comment is not enough; public content is cached an
 **Out of scope:**
 
 - Vulnerabilities in the Daakia backend or in your own application code. Report backend issues to
-  Daakia directly via [daakia.ai](https://daakia.ai).
+  Daakia directly via [daakia.co.in](https://www.daakia.co.in).
 - Anything requiring a rooted device, a malicious OS build, or physical access to an unlocked
   device.
 - OEM battery managers or aggressive process-killing preventing calls from ringing. This is a

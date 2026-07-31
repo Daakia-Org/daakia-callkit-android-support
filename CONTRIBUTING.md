@@ -78,4 +78,4 @@ now is the cheapest time for a well-argued API change to land.
 ## Commercial licensing and credentials
 
 Licensing, onboarding, backend URLs and customer secrets are handled by Daakia directly, not
-through this repository. See [daakia.ai](https://daakia.ai).
+through this repository. See [daakia.co.in](https://www.daakia.co.in).
