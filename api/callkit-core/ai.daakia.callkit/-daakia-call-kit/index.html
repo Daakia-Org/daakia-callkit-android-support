@@ -1,0 +1,355 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>DaakiaCallKit</title>
+<link href="../../../images/logo-icon.svg" rel="icon" type="image/svg"><script>var pathToRoot = "../../../";</script>
+    <script>document.documentElement.classList.replace("no-js", "js");</script>
+    <script>const storage = localStorage.getItem("dokka-dark-mode")
+      if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+          document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+      } else {
+        const savedDarkMode = JSON.parse(storage)
+        if (savedDarkMode === true) {
+          document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+      }
+    </script>
+<script type="text/javascript" src="../../../scripts/sourceset_dependencies.js" async></script>
+<link href="../../../styles/style.css" rel="Stylesheet">
+<link href="../../../styles/main.css" rel="Stylesheet">
+<link href="../../../styles/prism.css" rel="Stylesheet">
+<link href="../../../styles/logo-styles.css" rel="Stylesheet">
+<link href="../../../ui-kit/ui-kit.min.css" rel="Stylesheet">
+<script type="text/javascript" src="../../../scripts/safe-local-storage_blocking.js"></script>
+<script type="text/javascript" src="../../../scripts/navigation-loader.js" async></script>
+<script type="text/javascript" src="../../../scripts/platform-content-handler.js" async></script>
+<script type="text/javascript" src="../../../scripts/main.js" defer></script>
+<script type="text/javascript" src="../../../scripts/prism.js" async></script>
+<script type="text/javascript" src="../../../ui-kit/ui-kit.min.js" defer></script></head>
+<body>
+<div class="root">
+    <header class="navigation theme-dark" id="navigation-wrapper" role="banner">
+<a class="library-name--link" href="../../../index.html" tabindex="1">
+                    Daakia CallKit
+            </a>        <button class="navigation-controls--btn navigation-controls--btn_toc ui-kit_mobile-only" id="toc-toggle" type="button">Toggle table of contents
+        </button>
+        <div class="navigation-controls--break ui-kit_mobile-only"></div>
+        <div class="library-version" id="library-version">
+        </div>
+        <div class="navigation-controls">
+        <ul class="filter-section filter-section_loading" id="filter-section" aria-label="Target filter">
+                <button class="platform-tag platform-selector jvm-like" data-active="" aria-pressed="true" data-filter=":callkit-core/release">release</button>
+            <div class="dropdown filter-section--dropdown" data-role="dropdown" id="filter-section-dropdown">
+                <button class="button button_dropdown filter-section--dropdown-toggle" role="combobox" data-role="dropdown-toggle" aria-controls="platform-tags-listbox" aria-haspopup="listbox" aria-expanded="false" aria-label="Toggle source sets"></button>
+                <ul role="listbox" id="platform-tags-listbox" class="dropdown--list" data-role="dropdown-listbox" aria-label="Target filter">
+                    <div class="dropdown--header"><span>Target filter</span>
+                        <button class="button" data-role="dropdown-toggle" aria-label="Close target filter">
+                            <i class="ui-kit-icon ui-kit-icon_cross"></i>
+                        </button>
+                    </div>
+                        <li role="option" class="dropdown--option platform-selector-option jvm-like" tabindex="0">
+                            <label class="checkbox">
+                                <input type="checkbox" class="checkbox--input" id=":callkit-core/release" data-filter=":callkit-core/release">
+                                <span class="checkbox--icon"></span>
+                                release
+                            </label>
+                        </li>
+                </ul>
+                <div class="dropdown--overlay"></div>
+            </div>
+        </ul>
+            <button class="navigation-controls--btn navigation-controls--btn_theme" id="theme-toggle-button" type="button">Switch theme
+            </button>
+            <div class="navigation-controls--btn navigation-controls--btn_search" id="searchBar" role="button">Search in
+                API
+            </div>
+        </div>
+    </header>
+    <div id="container">
+        <nav id="leftColumn" class="sidebar" data-item-type="SECTION" data-item-config="{&quot;defaultSize&quot;: 280, &quot;minSize&quot;: 200, &quot;maxSize&quot;: 400}">
+            <a class="toc--skip-link" href="#main">Skip to content</a>
+            <div class="dropdown theme-dark_mobile" data-role="dropdown" id="toc-dropdown">
+                <ul role="listbox" id="toc-listbox" class="dropdown--list dropdown--list_toc-list" data-role="dropdown-listbox" aria-label="Table of contents">
+                    <div class="dropdown--header">
+                            <span>
+                                    Daakia CallKit
+                            </span>
+                        <button class="button" data-role="dropdown-toggle" aria-label="Close table of contents">
+                            <i class="ui-kit-icon ui-kit-icon_cross"></i>
+                        </button>
+                    </div>
+                    <div class="sidebar--inner" id="sideMenu"></div>
+                </ul>
+                <div class="dropdown--overlay"></div>
+            </div>
+        </nav>
+        <div id="resizer" class="resizer" data-item-type="BAR"></div>
+        <div id="main" data-item-type="SECTION" role="main">
+<div class="main-content" data-page-type="classlike" id="content" pageids="callkit-core::ai.daakia.callkit/DaakiaCallKit///PointingToDeclaration//340360420">
+  <div class="breadcrumbs"><a href="../../index.html">callkit-core</a><span class="delimiter">/</span><a href="../index.html">ai.daakia.callkit</a><span class="delimiter">/</span><span class="current">DaakiaCallKit</span></div>
+  <div class="cover ">
+    <h1 class="cover"><span>Daakia</span><wbr><span>Call</span><wbr><span><span>Kit</span></span></h1>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":callkit-core/release"><div class="symbol monospace"><span class="token keyword">object </span><a href="index.html">DaakiaCallKit</a></div><p class="paragraph">Entry point of the Daakia CallKit SDK.</p><p class="paragraph">Initialize once from your <code class="lang-kotlin">Application.onCreate</code>, before using any other API:</p><div class="sample-container"><pre><code class="block lang-kotlin" theme="idea">DaakiaCallKit.initialize(<br>    context = this,<br>    config = DaakiaCallKitConfig(baseUrl = "https://…", secret = "…"),<br>)</code></pre><span class="copy-tooltip"><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div><span class="copy-icon"></span></span></div><p class="paragraph">The API falls into five groups:</p><ul><li><p class="paragraph"><strong>Receiving calls</strong> — <a href="handle-remote-message.html">handleRemoteMessage</a> (or <a href="../../ai.daakia.callkit.push/-daakia-messaging-service/index.html">ai.daakia.callkit.push.DaakiaMessagingService</a>) turns a Daakia push into a ringing incoming call.</p></li><li><p class="paragraph"><strong>Placing calls</strong> — <a href="register-device.html">registerDevice</a>, <a href="get-registered-device.html">getRegisteredDevice</a>, <a href="start-call-by-username.html">startCallByUsername</a>, <a href="start-call-by-token.html">startCallByToken</a>. These are <code class="lang-kotlin">suspend</code>; call them from your own scope.</p></li><li><p class="paragraph"><strong>Reporting call lifecycle</strong> — <a href="send-call-event.html">sendCallEvent</a> while the app runs, plus <a href="configure-call-event-fallback.html">configureCallEventFallback</a> for the killed-state path.</p></li><li><p class="paragraph"><strong>Cancelling a ringing call</strong> — <a href="end-call.html">endCall</a>, for when the caller hangs up first.</p></li><li><p class="paragraph"><strong>Observing</strong> — <a href="call-events.html">callEvents</a> and <a href="consume-launch-event.html">consumeLaunchEvent</a>.</p></li><li><p class="paragraph"><strong>Permissions</strong> — <a href="can-use-full-screen-intent.html">canUseFullScreenIntent</a> and <a href="open-full-screen-intent-settings.html">openFullScreenIntentSettings</a>.</p></li></ul></div></div>
+  </div>
+  <div class="tabbedcontent">
+    <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="CONSTRUCTOR,TYPE,PROPERTY,FUNCTION">Members</button></div>
+    <div class="tabs-section-body">
+      <div data-togglable="PROPERTY">
+        <h2 class="tableheader">Properties</h2>
+        <div class="table"><a data-name="1385906992%2FProperties%2F340360420" anchor-label="callEvents" id="1385906992%2FProperties%2F340360420" data-filterable-set=":callkit-core/release"></a>
+          <div class="table-row table-row_content" data-filterable-current=":callkit-core/release" data-filterable-set=":callkit-core/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="call-events.html"><span>call</span><wbr><span><span>Events</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1385906992%2FProperties%2F340360420"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":callkit-core/release"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.jvm/-jvm-static/index.html"><span class="token annotation builtin">JvmStatic</span></a></div></div><span class="token keyword">val </span><a href="call-events.html">callEvents</a><span class="token operator">: </span><span data-unresolved-link="kotlinx.coroutines.flow/SharedFlow///PointingToDeclaration/">SharedFlow</span><span class="token operator">&lt;</span><a href="../../ai.daakia.callkit.model/-call-event/index.html">CallEvent</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">Call lifecycle events: incoming, accepted, declined, ended, timed out.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-togglable="FUNCTION">
+        <h2 class="tableheader">Functions</h2>
+        <div class="table"><a data-name="1988125977%2FFunctions%2F340360420" anchor-label="canUseFullScreenIntent" id="1988125977%2FFunctions%2F340360420" data-filterable-set=":callkit-core/release"></a>
+          <div class="table-row table-row_content" data-filterable-current=":callkit-core/release" data-filterable-set=":callkit-core/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="can-use-full-screen-intent.html"><span>can</span><wbr><span>Use</span><wbr><span>Full</span><wbr><span>Screen</span><wbr><span><span>Intent</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1988125977%2FFunctions%2F340360420"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":callkit-core/release"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.jvm/-jvm-static/index.html"><span class="token annotation builtin">JvmStatic</span></a></div></div><span class="token keyword">fun </span><a href="can-use-full-screen-intent.html"><span class="token function">canUseFullScreenIntent</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a></div><div class="brief "><p class="paragraph">Whether the app may use full-screen intents, i.e. whether the incoming-call screen can appear over the lock screen. Always <code class="lang-kotlin">true</code> below Android 14; on Android 14+ the user can revoke it, in which case the call shows as a heads-up notification only — check this and offer <a href="open-full-screen-intent-settings.html">openFullScreenIntentSettings</a> from your app's settings.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1164925814%2FFunctions%2F340360420" anchor-label="clearCallEventFallback" id="1164925814%2FFunctions%2F340360420" data-filterable-set=":callkit-core/release"></a>
+          <div class="table-row table-row_content" data-filterable-current=":callkit-core/release" data-filterable-set=":callkit-core/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="clear-call-event-fallback.html"><span>clear</span><wbr><span>Call</span><wbr><span>Event</span><wbr><span><span>Fallback</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1164925814%2FFunctions%2F340360420"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":callkit-core/release"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.jvm/-jvm-static/index.html"><span class="token annotation builtin">JvmStatic</span></a></div></div><span class="token keyword">fun </span><a href="clear-call-event-fallback.html"><span class="token function">clearCallEventFallback</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Disables the killed-state fallback webhook configured by <a href="configure-call-event-fallback.html">configureCallEventFallback</a>.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-2056051512%2FFunctions%2F340360420" anchor-label="clearSentCallEventCache" id="-2056051512%2FFunctions%2F340360420" data-filterable-set=":callkit-core/release"></a>
+          <div class="table-row table-row_content" data-filterable-current=":callkit-core/release" data-filterable-set=":callkit-core/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="clear-sent-call-event-cache.html"><span>clear</span><wbr><span>Sent</span><wbr><span>Call</span><wbr><span>Event</span><wbr><span><span>Cache</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2056051512%2FFunctions%2F340360420"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":callkit-core/release"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.jvm/-jvm-static/index.html"><span class="token annotation builtin">JvmStatic</span></a></div></div><span class="token keyword">fun </span><a href="clear-sent-call-event-cache.html"><span class="token function">clearSentCallEventCache</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Clears the local dedupe cache of call events already reported to the backend, allowing the same <code class="lang-kotlin">meetingUid</code> + action pair to be reported again.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="651087021%2FFunctions%2F340360420" anchor-label="configureCallEventFallback" id="651087021%2FFunctions%2F340360420" data-filterable-set=":callkit-core/release"></a>
+          <div class="table-row table-row_content" data-filterable-current=":callkit-core/release" data-filterable-set=":callkit-core/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="configure-call-event-fallback.html"><span>configure</span><wbr><span>Call</span><wbr><span>Event</span><wbr><span><span>Fallback</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="651087021%2FFunctions%2F340360420"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":callkit-core/release"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.jvm/-jvm-static/index.html"><span class="token annotation builtin">JvmStatic</span></a></div><div class="block"><span class="token annotation builtin">@</span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.jvm/-jvm-overloads/index.html"><span class="token annotation builtin">JvmOverloads</span></a></div></div><span class="token keyword">fun </span><a href="configure-call-event-fallback.html"><span class="token function">configureCallEventFallback</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">actions<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.collections/-set/index.html">Set</a><span class="token operator">&lt;</span><a href="../../ai.daakia.callkit.model/-call-event-action/index.html">CallEventAction</a><span class="token operator">&gt;</span><span class="token punctuation">, </span></span><span class="parameter ">metadata<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.collections/-map/index.html">Map</a><span class="token operator">&lt;</span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">&gt;</span><span class="token operator">?</span><span class="token operator"> = </span>null</span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Enables the killed-state fallback webhook: when the user accepts, declines, or lets a call time out, the SDK reports the matching <a href="../../ai.daakia.callkit.model/-call-event-action/index.html">CallEventAction</a> to the backend even if the app process is not running (via WorkManager), using the base URL and secret captured from <a href="initialize.html">initialize</a>'s config at call time.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1243334580%2FFunctions%2F340360420" anchor-label="consumeLaunchEvent" id="-1243334580%2FFunctions%2F340360420" data-filterable-set=":callkit-core/release"></a>
+          <div class="table-row table-row_content" data-filterable-current=":callkit-core/release" data-filterable-set=":callkit-core/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="consume-launch-event.html"><span>consume</span><wbr><span>Launch</span><wbr><span><span>Event</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1243334580%2FFunctions%2F340360420"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":callkit-core/release"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.jvm/-jvm-static/index.html"><span class="token annotation builtin">JvmStatic</span></a></div></div><span class="token keyword">fun </span><a href="consume-launch-event.html"><span class="token function">consumeLaunchEvent</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">intent<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/content/Intent.html">Intent</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../../ai.daakia.callkit.model/-call-event/index.html">CallEvent</a><span class="token operator">?</span></div><div class="brief "><p class="paragraph">Recovers the call event carried by the intent that launched your activity — the accept-from-killed-state path, where the SDK starts your launcher activity because the user accepted a call while the app process was dead.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="699054201%2FFunctions%2F340360420" anchor-label="endCall" id="699054201%2FFunctions%2F340360420" data-filterable-set=":callkit-core/release"></a>
+          <div class="table-row table-row_content" data-filterable-current=":callkit-core/release" data-filterable-set=":callkit-core/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="end-call.html"><span>end</span><wbr><span><span>Call</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="699054201%2FFunctions%2F340360420"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":callkit-core/release"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.jvm/-jvm-static/index.html"><span class="token annotation builtin">JvmStatic</span></a></div><div class="block"><span class="token annotation builtin">@</span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.jvm/-jvm-overloads/index.html"><span class="token annotation builtin">JvmOverloads</span></a></div></div><span class="token keyword">fun </span><a href="end-call.html"><span class="token function">endCall</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">callId<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span><span class="token operator"> = </span>null</span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Stops a ringing incoming call: silences the ringtone and vibration, removes the notification, closes the SDK's call screen if it is showing, and emits <a href="../../ai.daakia.callkit.model/-call-event-type/-e-n-d-e-d/index.html">ai.daakia.callkit.model.CallEventType.ENDED</a>.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-896336886%2FFunctions%2F340360420" anchor-label="getRegisteredDevice" id="-896336886%2FFunctions%2F340360420" data-filterable-set=":callkit-core/release"></a>
+          <div class="table-row table-row_content" data-filterable-current=":callkit-core/release" data-filterable-set=":callkit-core/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-registered-device.html"><span>get</span><wbr><span>Registered</span><wbr><span><span>Device</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-896336886%2FFunctions%2F340360420"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":callkit-core/release"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.jvm/-jvm-static/index.html"><span class="token annotation builtin">JvmStatic</span></a></div><div class="block"><span class="token annotation builtin">@</span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.jvm/-jvm-overloads/index.html"><span class="token annotation builtin">JvmOverloads</span></a></div></div><span class="token keyword">suspend </span><span class="token keyword">fun </span><a href="get-registered-device.html"><span class="token function">getRegisteredDevice</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">username<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">platform<span class="token operator">: </span><a href="../../ai.daakia.callkit.model/-daakia-platform/index.html">DaakiaPlatform</a><span class="token operator"> = </span>DaakiaPlatform.ANDROID</span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../../ai.daakia.callkit.model/-device-token-record/index.html">DeviceTokenRecord</a></div><div class="brief "><p class="paragraph">Looks up the push token the backend currently holds for <a href="get-registered-device.html">username</a>.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1939080848%2FFunctions%2F340360420" anchor-label="handleRemoteMessage" id="1939080848%2FFunctions%2F340360420" data-filterable-set=":callkit-core/release"></a>
+          <div class="table-row table-row_content" data-filterable-current=":callkit-core/release" data-filterable-set=":callkit-core/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="handle-remote-message.html"><span>handle</span><wbr><span>Remote</span><wbr><span><span>Message</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1939080848%2FFunctions%2F340360420"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":callkit-core/release"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.jvm/-jvm-static/index.html"><span class="token annotation builtin">JvmStatic</span></a></div></div><span class="token keyword">fun </span><a href="handle-remote-message.html"><span class="token function">handleRemoteMessage</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">message<span class="token operator">: </span><span data-unresolved-link="com.google.firebase.messaging/RemoteMessage///PointingToDeclaration/">RemoteMessage</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a></div><div class="brief "><p class="paragraph">Handles an FCM message if it is a Daakia incoming-call push.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="491879799%2FFunctions%2F340360420" anchor-label="initialize" id="491879799%2FFunctions%2F340360420" data-filterable-set=":callkit-core/release"></a>
+          <div class="table-row table-row_content" data-filterable-current=":callkit-core/release" data-filterable-set=":callkit-core/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="initialize.html"><span><span>initialize</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="491879799%2FFunctions%2F340360420"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":callkit-core/release"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.jvm/-jvm-static/index.html"><span class="token annotation builtin">JvmStatic</span></a></div></div><span class="token keyword">fun </span><a href="initialize.html"><span class="token function">initialize</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">context<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/content/Context.html">Context</a><span class="token punctuation">, </span></span><span class="parameter ">config<span class="token operator">: </span><a href="../-daakia-call-kit-config/index.html">DaakiaCallKitConfig</a></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Initializes the SDK. Call once from your <code class="lang-kotlin">Application.onCreate</code> before anything else.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="430639715%2FFunctions%2F340360420" anchor-label="openFullScreenIntentSettings" id="430639715%2FFunctions%2F340360420" data-filterable-set=":callkit-core/release"></a>
+          <div class="table-row table-row_content" data-filterable-current=":callkit-core/release" data-filterable-set=":callkit-core/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="open-full-screen-intent-settings.html"><span>open</span><wbr><span>Full</span><wbr><span>Screen</span><wbr><span>Intent</span><wbr><span><span>Settings</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="430639715%2FFunctions%2F340360420"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":callkit-core/release"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.jvm/-jvm-static/index.html"><span class="token annotation builtin">JvmStatic</span></a></div></div><span class="token keyword">fun </span><a href="open-full-screen-intent-settings.html"><span class="token function">openFullScreenIntentSettings</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a></div><div class="brief "><p class="paragraph">Opens the Android 14+ system screen where the user grants full-screen intent use.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-710603909%2FFunctions%2F340360420" anchor-label="registerDevice" id="-710603909%2FFunctions%2F340360420" data-filterable-set=":callkit-core/release"></a>
+          <div class="table-row table-row_content" data-filterable-current=":callkit-core/release" data-filterable-set=":callkit-core/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="register-device.html"><span>register</span><wbr><span><span>Device</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-710603909%2FFunctions%2F340360420"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":callkit-core/release"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.jvm/-jvm-static/index.html"><span class="token annotation builtin">JvmStatic</span></a></div></div><span class="token keyword">suspend </span><span class="token keyword">fun </span><a href="register-device.html"><span class="token function">registerDevice</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">username<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">fcmToken<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../../ai.daakia.callkit.model/-device-token-record/index.html">DeviceTokenRecord</a></div><div class="brief "><p class="paragraph">Registers this device's push token with the Daakia backend, so calls placed to <a href="register-device.html">username</a> reach it.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1458595560%2FFunctions%2F340360420" anchor-label="sendCallEvent" id="-1458595560%2FFunctions%2F340360420" data-filterable-set=":callkit-core/release"></a>
+          <div class="table-row table-row_content" data-filterable-current=":callkit-core/release" data-filterable-set=":callkit-core/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="send-call-event.html"><span>send</span><wbr><span>Call</span><wbr><span><span>Event</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1458595560%2FFunctions%2F340360420"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":callkit-core/release"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.jvm/-jvm-static/index.html"><span class="token annotation builtin">JvmStatic</span></a></div><div class="block"><span class="token annotation builtin">@</span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.jvm/-jvm-overloads/index.html"><span class="token annotation builtin">JvmOverloads</span></a></div></div><span class="token keyword">suspend </span><span class="token keyword">fun </span><a href="send-call-event.html"><span class="token function">sendCallEvent</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">meetingUid<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">action<span class="token operator">: </span><a href="../../ai.daakia.callkit.model/-call-event-action/index.html">CallEventAction</a><span class="token punctuation">, </span></span><span class="parameter ">metadata<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.collections/-map/index.html">Map</a><span class="token operator">&lt;</span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">&gt;</span><span class="token operator">?</span><span class="token operator"> = </span>null</span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Reports a call lifecycle action to the Daakia backend webhook.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1372025208%2FFunctions%2F340360420" anchor-label="startCallByToken" id="-1372025208%2FFunctions%2F340360420" data-filterable-set=":callkit-core/release"></a>
+          <div class="table-row table-row_content" data-filterable-current=":callkit-core/release" data-filterable-set=":callkit-core/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="start-call-by-token.html"><span>start</span><wbr><span>Call</span><wbr><span>By</span><wbr><span><span>Token</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1372025208%2FFunctions%2F340360420"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":callkit-core/release"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.jvm/-jvm-static/index.html"><span class="token annotation builtin">JvmStatic</span></a></div><div class="block"><span class="token annotation builtin">@</span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.jvm/-jvm-overloads/index.html"><span class="token annotation builtin">JvmOverloads</span></a></div></div><span class="token keyword">suspend </span><span class="token keyword">fun </span><a href="start-call-by-token.html"><span class="token function">startCallByToken</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">token<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">platform<span class="token operator">: </span><a href="../../ai.daakia.callkit.model/-daakia-platform/index.html">DaakiaPlatform</a><span class="token punctuation">, </span></span><span class="parameter ">call<span class="token operator">: </span><a href="../../ai.daakia.callkit.model/-incoming-call-data/index.html">IncomingCallData</a><span class="token punctuation">, </span></span><span class="parameter ">message<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator"> = </span>call.body</span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../../ai.daakia.callkit.model/-push-result/index.html">PushResult</a></div><div class="brief "><p class="paragraph">Places a call straight to a known device token, skipping the backend's username lookup — see <a href="get-registered-device.html">getRegisteredDevice</a> for obtaining one.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1554639380%2FFunctions%2F340360420" anchor-label="startCallByUsername" id="1554639380%2FFunctions%2F340360420" data-filterable-set=":callkit-core/release"></a>
+          <div class="table-row table-row_content" data-filterable-current=":callkit-core/release" data-filterable-set=":callkit-core/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="start-call-by-username.html"><span>start</span><wbr><span>Call</span><wbr><span>By</span><wbr><span><span>Username</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1554639380%2FFunctions%2F340360420"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":callkit-core/release"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.jvm/-jvm-static/index.html"><span class="token annotation builtin">JvmStatic</span></a></div><div class="block"><span class="token annotation builtin">@</span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.jvm/-jvm-overloads/index.html"><span class="token annotation builtin">JvmOverloads</span></a></div></div><span class="token keyword">suspend </span><span class="token keyword">fun </span><a href="start-call-by-username.html"><span class="token function">startCallByUsername</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">username<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">call<span class="token operator">: </span><a href="../../ai.daakia.callkit.model/-incoming-call-data/index.html">IncomingCallData</a><span class="token punctuation">, </span></span><span class="parameter ">message<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator"> = </span>call.body</span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../../ai.daakia.callkit.model/-push-result/index.html">PushResult</a></div><div class="brief "><p class="paragraph">Places a call by username: the backend resolves <a href="start-call-by-username.html">username</a> to its registered devices and pushes the incoming call to them.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    <div class="footer">
+        <div class="footer--container">
+            <a href="#content" id="go-to-top-link" class="footer--button footer--button_go-to-top"></a>
+            <div class="footer--content">
+                <div>
+                    <span>Generated by </span>
+                    <a class="footer--link footer--link_external" href="https://github.com/Kotlin/dokka">
+                        Dokka
+                    </a>
+                    <div>© 2026 Copyright</div>
+                </div>
+            </div>
+        </div>
+    </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

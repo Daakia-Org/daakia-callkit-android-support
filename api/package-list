@@ -1,0 +1,12 @@
+$dokka.format:html-v1
+$dokka.linkExtension:html
+
+module:callkit-core
+ai.daakia.callkit
+ai.daakia.callkit.model
+ai.daakia.callkit.push
+ai.daakia.callkit.ui
+module:callkit-ui-compose
+ai.daakia.callkit.ui.compose
+module:callkit-ui-views
+ai.daakia.callkit.ui.views

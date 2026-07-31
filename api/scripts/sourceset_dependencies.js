@@ -1,0 +1,1 @@
+sourceset_dependencies = '{":callkit-core/release":[],":callkit-ui-views/release":[],":callkit-ui-compose/release":[]}'

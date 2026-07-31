@@ -1,0 +1,122 @@
+<!doctype html>
+<!--
+  Landing page for https://daakia-org.github.io/daakia-callkit-android-support/
+
+  Deployed by the SDK repo's publish-api-reference.yml, which copies this file to the root of
+  the gh-pages branch and puts the Dokka reference under /api/. Two consequences:
+
+    - /api/ is relative and only resolves on the deployed site, not when viewing this file
+      in the repository.
+    - Guide links are absolute GitHub URLs on purpose. The guides are Markdown; served raw
+      over Pages they would download rather than render, so they point at GitHub, which
+      renders them properly.
+
+  This file is hand-maintained here — the mirror does not touch it. Only its deployed copy
+  is generated.
+-->
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Daakia CallKit — Android SDK</title>
+    <style>
+      :root { color-scheme: light dark; }
+      body {
+        font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+        line-height: 1.6;
+        max-width: 42rem;
+        margin: 0 auto;
+        padding: 3rem 1.25rem;
+      }
+      h1 { margin-bottom: 0.25rem; }
+      p.lede { margin-top: 0; opacity: 0.75; }
+      ul { padding-left: 1.2rem; }
+      li { margin: 0.5rem 0; }
+      code { font-size: 0.9em; }
+      p.note { opacity: 0.75; font-size: 0.9em; }
+    </style>
+  </head>
+  <body>
+    <h1>Daakia CallKit — Android SDK</h1>
+    <p class="lede">
+      Native Android SDK for Daakia-backed incoming call signaling.
+    </p>
+
+    <p>
+      Published to Maven Central as
+      <code>ai.daakia:callkit-core</code>, <code>ai.daakia:callkit-ui-compose</code>, and
+      <code>ai.daakia:callkit-ui-views</code>. Start with
+      <a href="https://github.com/Daakia-Org/daakia-callkit-android-support/blob/main/docs/getting-started.md">Getting
+      started</a>, or run the
+      <a href="https://github.com/Daakia-Org/daakia-callkit-android-support/tree/main/sample">sample
+      app</a>.
+    </p>
+
+    <h2>Guides</h2>
+    <ul>
+      <li>
+        <a href="https://github.com/Daakia-Org/daakia-callkit-android-support/blob/main/docs/getting-started.md">Getting
+        started</a> — from an empty app to a ringing call in about 20 minutes: install,
+        Firebase, manifest, receiving and placing calls.
+      </li>
+      <li>
+        <a href="https://github.com/Daakia-Org/daakia-callkit-android-support/blob/main/docs/call-events.md">Handling
+        call events</a> — the complete guide to <code>ACCEPTED</code> vs the event flow, the
+        replay buffer, deduplication, and lock-screen handling. Read this if the event model
+        felt confusing.
+      </li>
+      <li>
+        <a href="https://github.com/Daakia-Org/daakia-callkit-android-support/blob/main/docs/call-screen-ui.md">The
+        incoming-call screen</a> — the preset UI modules, the three styles, theming, and
+        building your own call Activity.
+      </li>
+      <li>
+        <a href="https://github.com/Daakia-Org/daakia-callkit-android-support/blob/main/docs/choosing-apis.md">Choosing
+        the right API</a> — which API to use when, for the pairs that look redundant.
+      </li>
+      <li>
+        <a href="https://github.com/Daakia-Org/daakia-callkit-android-support/blob/main/docs/troubleshooting.md">Troubleshooting</a>
+        — diagnosing calls that don't ring, layer by layer, including OEM battery managers.
+      </li>
+      <li>
+        <a href="https://github.com/Daakia-Org/daakia-callkit-android-support/blob/main/docs/permissions.md">Permissions</a>
+        — every permission the SDK declares and why.
+      </li>
+    </ul>
+
+    <h2>Onboarding</h2>
+    <ul>
+      <li>
+        <a href="https://github.com/Daakia-Org/daakia-callkit-android-support/blob/main/docs/client-handoff.md">Client
+        onboarding checklist</a> — what a client provides before integration starts, and what
+        they get back. Skip if onboarding is done.
+      </li>
+    </ul>
+
+    <h2>API reference</h2>
+    <ul>
+      <li>
+        <a href="./api/">Latest release</a> — generated from KDoc, all three modules in one site.
+      </li>
+      <li>
+        Any released version, on javadoc.io:
+        <a href="https://javadoc.io/doc/ai.daakia/callkit-core">callkit-core</a>,
+        <a href="https://javadoc.io/doc/ai.daakia/callkit-ui-compose">callkit-ui-compose</a>,
+        <a href="https://javadoc.io/doc/ai.daakia/callkit-ui-views">callkit-ui-views</a>.
+      </li>
+    </ul>
+    <p class="note">
+      This site carries the latest release only. javadoc.io keeps every published version, and
+      is the right link to use when writing about a specific one.
+    </p>
+
+    <h2>Elsewhere</h2>
+    <ul>
+      <li>
+        <a href="https://github.com/Daakia-Org/daakia-callkit-android-support">Documentation and
+        issue tracker on GitHub</a> — bug reports, feature requests, and questions in Discussions.
+      </li>
+      <li><a href="https://daakia.ai">daakia.ai</a></li>
+    </ul>
+  </body>
+</html>
