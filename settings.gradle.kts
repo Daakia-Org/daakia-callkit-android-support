@@ -31,9 +31,18 @@ include(":sample")
 // Nothing below affects you if you are reading this as a Daakia CallKit user: without the
 // property, the sample resolves ai.daakia:* from Maven Central exactly as your own app would.
 //
-// Internally, `-Pdaakia.useLocalSdk=true` builds the sample against a checkout of the (private)
+// Internally, `daakia.useLocalSdk=true` builds the sample against a checkout of the (private)
 // SDK repository sitting next to this one, so an API break fails here before anything is
 // published. Maven Central versions are permanent, so catching it now is the entire point.
+//
+// Set it either way:
+//   local.properties      daakia.useLocalSdk=true   <- for humans. Gitignored, per-checkout,
+//                                                      and the IDE's Run button honours it.
+//   -Pdaakia.useLocalSdk=true                       <- for CI, which passes it explicitly.
+//
+// local.properties is where this repo already keeps machine-local config (the sample's backend
+// credentials), so the answer to "am I on the local SDK right now?" lives in one place and
+// cannot be committed by accident.
 //
 // The explicit dependencySubstitution block is REQUIRED, not decorative. The SDK's publishing
 // plugin applies its GROUP/VERSION_NAME to the published coordinates only — its Gradle projects
@@ -41,7 +50,20 @@ include(":sample")
 // `ai.daakia:*` to match, and a bare includeBuild(...) silently resolves from Maven Central
 // while looking like it worked. Verified 30 Jul 2026.
 val sdkRepo = file("../daakia-callkit-android")
-if (providers.gradleProperty("daakia.useLocalSdk").orNull == "true") {
+
+// -P wins over local.properties, so CI can force either mode regardless of what a developer
+// left in their checkout.
+val useLocalSdk =
+    providers.gradleProperty("daakia.useLocalSdk").orNull
+        ?: file("local.properties")
+            .takeIf { it.isFile }
+            ?.let { propertiesFile ->
+                java.util.Properties()
+                    .apply { propertiesFile.inputStream().use(::load) }
+                    .getProperty("daakia.useLocalSdk")
+            }
+
+if (useLocalSdk == "true") {
     require(sdkRepo.isDirectory) {
         "daakia.useLocalSdk=true but the SDK repo is not checked out at $sdkRepo"
     }
