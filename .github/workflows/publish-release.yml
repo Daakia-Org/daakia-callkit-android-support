@@ -1,45 +1,142 @@
 name: Publish release
 
 # Creates a GitHub release here so external developers can watch this repo for new SDK versions.
-# Until now the only release lived on the private SDK repo, where nobody outside can see it.
+# The only other release lives on the private SDK repo, where nobody outside can see it.
 #
-# Run this by hand (Actions -> Publish release -> Run workflow) as the last step of a release,
-# AFTER the artifacts are live on Maven Central. It is deliberately not automatic: the SDK's tag
-# workflow uploads a deployment that still needs manual approval, and it can be dropped instead
-# of published. A release announced here for a version that never shipped is worse than a late one.
+# Two ways in:
+#   repository_dispatch  the SDK repo sends `sdk-released` from its tag workflow — the normal path
+#   workflow_dispatch    run it by hand for a re-run, or a version released before this existed
 #
-# Notes come from CHANGELOG.md, not from commit messages: the commits are in a private repo and
-# their messages are written for the people who work in it.
+# Announcing a version that never shipped would be worse than announcing one late, so the job
+# refuses to create anything until the artifacts are genuinely resolvable from Maven Central. It
+# waits for them rather than failing fast, because the SDK's tag fires while the deployment is
+# still awaiting manual approval in the Central portal. That gives the whole thing a safe failure
+# mode: **drop the deployment and this job simply times out, having published nothing.**
+#
+# It also bumps the sample's SDK version and proves the sample still builds against the released
+# artifacts before the release goes out — the strongest available evidence that what was published
+# is actually consumable.
+#
+# Notes come from CHANGELOG.md, not from commit messages: those live in a private repo and are
+# written for the people who work in it.
 
 on:
+  repository_dispatch:
+    types: [sdk-released]
   workflow_dispatch:
     inputs:
       version:
-        description: 'Version to release, without the "v" (e.g. 0.2.0). Must already be on Maven Central and have a CHANGELOG section.'
+        description: 'Version to release, without the "v" (e.g. 1.0.0).'
         required: true
         type: string
 
 permissions:
   contents: write
 
+concurrency:
+  group: publish-release
+  cancel-in-progress: false
+
 jobs:
   release:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    # Generous: the window covers however long approval in the Central portal takes, plus CDN
+    # propagation. Public repo, so the minutes are free.
+    timeout-minutes: 150
     steps:
       - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
 
-      # Fails early and specifically rather than producing an empty release body.
-      - name: Extract the changelog section
-        id: notes
+      - name: Resolve the version
+        id: version
         env:
-          VERSION: ${{ inputs.version }}
+          INPUT_VERSION: ${{ inputs.version }}
+          DISPATCH_VERSION: ${{ github.event.client_payload.version }}
+        run: |
+          version="${INPUT_VERSION:-$DISPATCH_VERSION}"
+          version="${version#v}"
+          if [ -z "$version" ]; then
+            echo "::error::No version given. workflow_dispatch needs the version input; repository_dispatch needs client_payload.version."
+            exit 1
+          fi
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+          echo "Releasing $version"
+
+      # Re-runs and duplicate dispatches must not fail or double-publish.
+      - name: Stop early if this release already exists
+        id: existing
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          if gh release view "v${VERSION}" >/dev/null 2>&1; then
+            echo "Release v${VERSION} already exists — nothing to do."
+            echo "done=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "done=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      # The gate. Everything below assumes the artifacts are real.
+      - name: Wait for the version to reach Maven Central
+        if: steps.existing.outputs.done == 'false'
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          url="https://repo1.maven.org/maven2/ai/daakia/callkit-core/${VERSION}/callkit-core-${VERSION}.pom"
+          deadline=$(( SECONDS + 120 * 60 ))
+          until curl -sfI "$url" >/dev/null; do
+            if [ "$SECONDS" -ge "$deadline" ]; then
+              echo "::error::${VERSION} never appeared at $url. Either the Central deployment was not approved, it was dropped, or CDN propagation is unusually slow. Nothing has been published here — re-run this workflow once the artifacts are live."
+              exit 1
+            fi
+            echo "Not on Central yet; checking again in 60s. ($(( (deadline - SECONDS) / 60 ))m left)"
+            sleep 60
+          done
+          echo "$VERSION is live on Maven Central."
+
+      - uses: actions/setup-java@v5
+        if: steps.existing.outputs.done == 'false'
+        with:
+          distribution: temurin
+          java-version: 21
+
+      - uses: gradle/actions/setup-gradle@v6
+        if: steps.existing.outputs.done == 'false'
+
+      - name: Point the sample at the released version
+        if: steps.existing.outputs.done == 'false'
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          current=$(grep -E '^daakiaCallkit = ' gradle/libs.versions.toml | cut -d'"' -f2)
+          if [ "$current" = "$VERSION" ]; then
+            echo "Catalog is already on $VERSION."
+          else
+            echo "Bumping the catalog: $current -> $VERSION"
+            sed -i -E "s/^daakiaCallkit = \".*\"/daakiaCallkit = \"${VERSION}\"/" gradle/libs.versions.toml
+            grep -E '^daakiaCallkit = ' gradle/libs.versions.toml
+          fi
+
+      # Proof that what was published can actually be consumed — bad module metadata or a
+      # broken variant match passes an HTTP check and fails a real build. Better to find that
+      # before the release is announced than after.
+      - name: Build the sample against the released artifacts
+        if: steps.existing.outputs.done == 'false'
+        run: |
+          cp sample/google-services.ci.json sample/google-services.json
+          ./gradlew :sample:assembleDebug
+
+      - name: Extract the changelog section
+        if: steps.existing.outputs.done == 'false'
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
         run: |
           # index($0, v) == 1 rather than a regex match: the heading contains [ ] and dots, which
           # a regex would read as a character class and any-char. "## [0.1.0]" as a pattern
           # matches nothing at all, silently.
           if [ "$(awk -v v="## [${VERSION}]" 'index($0, v) == 1 { print "yes"; exit }' CHANGELOG.md)" != "yes" ]; then
-            echo "::error::No '## [${VERSION}]' section in CHANGELOG.md. The mirror from the SDK repo may not have run yet — check that its docs sync workflow succeeded."
+            echo "::error::No '## [${VERSION}]' section in CHANGELOG.md. The docs mirror from the SDK repo may not have run — check its sync-docs workflow."
             exit 1
           fi
           awk -v v="## [${VERSION}]" '
@@ -51,37 +148,37 @@ jobs:
             echo "::error::The '## [${VERSION}]' section is empty."
             exit 1
           fi
-          echo "Release notes:"
           cat notes.md
 
-      # The catalog is what the sample builds against, so this is a real check that the version
-      # being announced is the one this repo is set up to consume.
-      - name: Check the catalog is on this version
+      # Pushed before the release is created so the tag points at a tree whose catalog matches
+      # the version being announced. If branch protection is ever enabled on main, this push
+      # needs a bypass — or it has to become a PR, which would make the release manual again.
+      - name: Commit the catalog bump
+        id: commit
+        if: steps.existing.outputs.done == 'false'
         env:
-          VERSION: ${{ inputs.version }}
+          VERSION: ${{ steps.version.outputs.version }}
         run: |
-          catalog=$(grep -E '^daakiaCallkit = ' gradle/libs.versions.toml | cut -d'"' -f2)
-          if [ "$catalog" != "$VERSION" ]; then
-            echo "::error::gradle/libs.versions.toml pins daakiaCallkit=$catalog but you asked to release $VERSION. Bump the catalog first — CI then proves the sample builds against it."
-            exit 1
+          if [ -n "$(git status --porcelain gradle/libs.versions.toml)" ]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add gradle/libs.versions.toml
+            git commit -m "build: point the sample at ai.daakia:* ${VERSION}" \
+              -m "Released to Maven Central; the sample builds green against it. Generated by .github/workflows/publish-release.yml."
+            git push origin HEAD:main
+          else
+            echo "Nothing to commit."
           fi
-
-      - name: Confirm the version is actually on Maven Central
-        env:
-          VERSION: ${{ inputs.version }}
-        run: |
-          url="https://repo1.maven.org/maven2/ai/daakia/callkit-core/${VERSION}/callkit-core-${VERSION}.pom"
-          if ! curl -sfI "$url" >/dev/null; then
-            echo "::error::$url is not reachable. Publish to Maven Central first, and allow a few hours for the CDN."
-            exit 1
-          fi
+          echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
 
       - name: Create the release
+        if: steps.existing.outputs.done == 'false'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          VERSION: ${{ inputs.version }}
+          VERSION: ${{ steps.version.outputs.version }}
+          TARGET_SHA: ${{ steps.commit.outputs.sha }}
         run: |
           gh release create "v${VERSION}" \
             --title "${VERSION}" \
             --notes-file notes.md \
-            --target "${GITHUB_SHA}"
+            --target "${TARGET_SHA}"
