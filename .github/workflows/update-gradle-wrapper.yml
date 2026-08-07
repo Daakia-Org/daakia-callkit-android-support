@@ -27,7 +27,13 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
+      # persist-credentials: false is required, not tidiness. Without it, checkout leaves an
+      # Authorization header in the local git config, the action adds its own on push, and GitHub
+      # rejects the request: `remote: Duplicate header: "Authorization"` -> HTTP 400. The action
+      # authenticates its own push via repo-token, so it needs nothing persisted here.
       - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
 
       - uses: actions/setup-java@v5
         with:
