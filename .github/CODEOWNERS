@@ -1,0 +1,13 @@
+# Every pull request here gets a review request for the maintainer — most usefully Dependabot's,
+# which would otherwise sit unassigned until someone happened to look at the repo.
+#
+# This is the mechanism GitHub now expects: Dependabot's own `reviewers` config key was removed
+# on 2025-05-27 and is silently ignored, with code owners named as the replacement. It works in
+# this repo because code owners are available in public repositories on the free plan; the
+# private SDK repo needs a workflow to do the same job (.github/workflows/request-review.yml
+# there).
+#
+# GitHub never requests a review from the author of a pull request, so this is a no-op on the
+# maintainer's own PRs.
+
+* @ashifali3147
