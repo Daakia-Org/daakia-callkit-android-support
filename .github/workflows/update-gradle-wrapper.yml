@@ -1,0 +1,65 @@
+name: Update Gradle Wrapper
+
+# Dependabot reads gradle/libs.versions.toml and stops there — it never touches the Gradle
+# wrapper — so gradle-wrapper.properties is the one dependency in this repo that nothing else
+# watches. That matters more here than in most repos: the sample is the first code an evaluating
+# developer reads, and a wrapper two years behind is visible staleness.
+#
+# Checked daily, matching .github/dependabot.yml. Gradle ships roughly every six weeks, so this
+# is a daily check that opens a PR only when there is actually something to bump.
+
+on:
+  schedule:
+    # 03:00 UTC daily.
+    - cron: '0 3 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: update-gradle-wrapper
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: 21
+
+      - uses: gradle-update/update-gradle-wrapper-action@v2
+        with:
+          # No base-branch/target-branch: this repo has no separate integration branch, so the
+          # action's default — the repository default branch — is what we want.
+          #
+          # No `reviewers` either: .github/CODEOWNERS already requests the maintainer's review on
+          # every PR opened here, bot-authored ones included. The SDK repo passes the input
+          # explicitly because code owners are unavailable to it.
+          labels: dependencies
+          # A release-candidate wrapper is explicitly not what should be building the sample that
+          # demonstrates published artifacts.
+          release-channel: stable
+          # Default, stated for the record: this writes `distributionSha256Sum` into
+          # gradle-wrapper.properties, so the wrapper verifies the distribution it downloads.
+          # Consequence for local upgrades — running `./gradlew wrapper --gradle-version X` by
+          # hand must also refresh that checksum (`--gradle-distribution-sha256-sum`), or the
+          # next build fails verification.
+          set-distribution-checksum: true
+
+      # Two things to know when reviewing the PR this opens:
+      #
+      # 1. PRs opened with the default GITHUB_TOKEN do not trigger `pull_request` workflows, so
+      #    ci.yml will NOT run on it. Close and reopen the PR to get a run, or pass a
+      #    fine-grained PAT as `repo-token` above.
+      # 2. The SDK repo's `canary` job invokes THIS repo's wrapper to build the sample as a
+      #    composite with the SDK source. A Gradle major-version bump is therefore worth checking
+      #    against that composite by hand (`./gradlew :sample:assembleDebug
+      #    -Pdaakia.useLocalSdk=true`) before merging, since nothing in this repo's own CI
+      #    exercises that combination.
