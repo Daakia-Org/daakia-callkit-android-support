@@ -5,9 +5,13 @@ updates:
   # stale. Its dependencies live in gradle/libs.versions.toml.
   - package-ecosystem: gradle
     directory: "/"
+    # Daily rather than monthly. It does not produce more PRs — the count is bounded by how often
+    # these libraries actually release — but it stops five of them landing on the 1st in a batch,
+    # so each bump is reviewed on the day it appears rather than as a pile. Actions minutes are
+    # free on a public repo, so the extra runs cost nothing here.
     schedule:
-      interval: monthly
-    open-pull-requests-limit: 5
+      interval: daily
+    open-pull-requests-limit: 10
     labels:
       - dependencies
     ignore:
@@ -24,6 +28,6 @@ updates:
   - package-ecosystem: github-actions
     directory: "/"
     schedule:
-      interval: monthly
+      interval: daily
     labels:
       - dependencies
