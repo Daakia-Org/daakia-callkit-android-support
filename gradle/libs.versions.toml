@@ -10,7 +10,7 @@ kotlin = "2.3.0"
 
 coroutines = "1.11.0"
 coreKtx = "1.19.0"
-firebaseMessaging = "25.1.1"
+firebaseMessaging = "25.1.2"
 material = "1.14.0"
 composeBom = "2026.06.01"
 activityCompose = "1.13.0"
