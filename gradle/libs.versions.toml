@@ -19,7 +19,7 @@ junit = "4.13.2"
 junitVersion = "1.3.0"
 espressoCore = "3.7.0"
 ktlint = "14.2.0"
-googleGmsGoogleServices = "4.5.0"
+googleGmsGoogleServices = "4.6.0"
 
 [libraries]
 daakia-callkit-ui-compose = { group = "ai.daakia", name = "callkit-ui-compose", version.ref = "daakiaCallkit" }
